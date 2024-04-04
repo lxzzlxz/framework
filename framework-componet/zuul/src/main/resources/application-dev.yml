@@ -1,0 +1,100 @@
+spring:
+  application:
+    name: zuul
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
+server:
+  port: 8080
+  servlet:
+    context-path: /crec-api
+
+#网关路由配置
+zuul:
+  #为zuul设置一个公共的前缀
+  #配置url时生效
+  host:
+    prefer-ip-address: true
+    connect-timeout-millis: 3000
+    socket-timeout-millis: 20000
+ # prefix: /api
+  routes:
+    #安全
+    consumer:
+      path: /security/**
+      serviceId: security
+    #系统管理
+    sysConsumer:
+      path: /system/**
+      serviceId: system
+    #认证服务
+    authConsumer:
+      path: /auth/**
+      serviceId: auth
+    #设备服务
+    equConsumer:
+      path: /merchanical/**
+      serviceId: merchanical
+    #需求服务
+    demandConsumer:
+      path: /demand/**
+      serviceId: demand
+    #供应商
+    supplierConsumer:
+      path: /supplier/**
+      serviceId: supplier
+    #项目
+    projectConsumer:
+      path: /project/**
+      serviceId: project
+    #文件
+    fileConsumer:
+      path: /file/**
+      serviceId: file
+    #支付
+    payConsumer:
+      path: /pay/**
+      serviceId: pay
+    #消息
+    smsConsumer:
+      path: /sms/**
+      serviceId: sms
+    #回收商
+    recovery:
+      path: /recovery/**
+      serviceId: recovery
+
+#hystrix超时熔断
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 60000
+#配置serviceid时生效
+ribbon:
+  ConnectTimeout: 3000
+  ReadTimeout: 20000
+
+session :
+  domain : legao.crec
+  expire : 1800
+  app-expire: 2592000
+
+eureka:
+  instance:
+    lease-expiration-duration-in-seconds: 15
+    lease-renewal-interval-in-seconds: 5
+  client:
+    service-url:
+      defaultZone: http://172.16.17.16:9871/eureka
+    registry-fetch-interval-seconds: 5
+
+feign:
+  hystrix:
+    enabled: false
+custom:
+  ignore-check: .*api-docs.*, /recovery/demand/v1/query-demand-Info,, .*swagger.*, /security/login, /security/adminLogin, /security/logout, /system/userMessage/.*/findCount,  /pay/hxpay/v1/asyncNotify, /security/validImageCode,  /security/register, /security/.*/register, /security/forgetPassword, /security/getImageCode, /security/app/login, /sms/sms/.*, /information/package/.*, /information/publicityHits/save, /information/static/.*, /information/information/.*/findPagedList/.*, /information/information/.*/findList,  /information/banner/.*/findPagedList/.*, /information/banner/.*,  /supplier/supplier/.*/findPagedList/.*, /supplier/supplier/.*/findList, /demand/demand/.*/findPagedList/.*, /demand/demand/v1/findPagedTradeList.*,  /demand/demand/.*/findList,  /supplier/supplier/.*/findPagedList/.*, /supplier/supplier/.*/findList, /demand/demandOrder/.*/findPagedList/.*, /demand/demandOrder/.*/findList, /merchanical/merchanical/.*/findList, /merchanical/merchanical/.*/findPagedList/.*, /merchanical/merchanicalCategory/.*, /demand/demandInfo/.*, .*exportApplyHtml, .*exportApply, /system/region/.*, /system/systemnotice/.*/list, /system/platformHistory/list, /system/platformHonor/list, /system/platformHonor/findPagedList/.*, /bidding/bidding/v1/findPagedList/.*, /bidding/bidding/v1/findInfo/.*, /bidding/bidding/v1/findPublicResultInfo/.*, /bidding/bidding/v1/findPublicResultPagedList/.*, /system/platformHonor/findPagedList/.*, /system/platformIntroduction/list, /merchanical/merchanical/v1/findFrontPagedList/.*, /merchanical/merchanical/v1/findFrontDetail,/information/publicity/findPublicity, /information/publicity/getInfo/.*, /merchanical/logistics/v1/findNoLoginPagedList/.*, /information/information/v1/info/.*,/information/safetyRuleView/insert,/information/safetyRule/frontPagedList/.* ,/file/file/v1/mark, /system/platform/v1/themeStatus,/recruitment/post/v1/firstHomePagedList/.*,/recruitment/resume/v1/firstHomePagedList/.*,/recruitment/candidateNotice/v1/firstHomePagedList/.*,/recruitment/job/v1/findList,/recovery/demand/v1/check-money,/merchanical/ilep/.*
+  not-allowed: /security/user/v1/updateAndInsert, /security/user/v1/deleteByService, /security/user/v1/authUser, /security/user/v1/authUser, /security/program/v1/insertByService, /security/programItem/v1/findListByService, /security/userRoleProgram/v1/updateAndInsert, /security/userRoleProgram/v1/deleteByService, /system/sitemap/v1/findUserSitemap, /auth/v1/check, /auth/v1/login, /auth/v1/appLogin, /auth/v1/logout, /auth/v1/setdata, /auth/v1/getdata, /auth/v1/setServiceKey, /auth/v1/delServiceKey, /auth/v1/getService
