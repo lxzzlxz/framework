@@ -1,0 +1,91 @@
+spring :
+  #data source config
+  application:
+    name: security
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  datasource :
+    driver : com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/crec_dmp_db?useUnicode=true&characterEncoding=utf8&useSSL=false&allowMultiQueries=true
+    username : root
+    password : Lxzzlxz5@
+    initsize : 10
+    maxActive : 20
+    minIdle : 10
+    maxWait : 120000
+    poolPreparedStatements : false
+    maxOpenPreparedStatements : -1
+    validationQuery : select 1
+    testOnborrow : true
+    testOnReturn : true
+    testWhileIdle : true
+    timeBetweenEvictionRunsMillis : 120000
+    filters : log4j,stat
+  redis:
+    host: localhost
+    port: 6379
+    password: 8mCN0uLG+j
+    database: 0
+    jedis:
+      pool:
+        max-active: 20
+        max-idle: 10
+        max-wait: 10000
+        min-idle: 0
+    timeout: 10000
+#mybatis config
+mybatis :
+  mapperLocations: classpath:com/legao/server/framework/**/dao/*Dao.xml
+  configuration:
+    map-underscore-to-camel-case: true
+session :
+  domain : legao.crec
+  expire : 1800
+
+eureka:
+  instance:
+    prefer-ip-address: true
+    lease-expiration-duration-in-seconds: 15
+    lease-renewal-interval-in-seconds: 5
+  client:
+    serviceUrl:
+      defaultZone: http://127.0.0.1:9871/eureka
+    registry-fetch-interval-seconds: 5
+
+#hystrix超时熔断
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 60000
+#配置serviceid时生效
+ribbon:
+  ConnectTimeout: 3000
+  ReadTimeout: 20000
+
+feign:
+  hystrix:
+    enabled: true
+
+
+server:
+  servlet:
+    context-path: /
+  port: 8083
+
+application:
+  description: 用户，权限，登录
+
+user:
+  register:
+    roleId: 1003
+    notAuthSocialDemanderRoleId: 7
+    programId: 1002
+  origin:
+    password: 111111
+jpush:
+  appKey: 93d4e6e32619a05a21bd1959
+  masterSecret: 096c07a0ac4fee0c90a99f5c

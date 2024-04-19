@@ -1,0 +1,41 @@
+spring :
+  application:
+    name: file
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
+session :
+  domain : legao.crec
+  expire : 1800
+
+eureka:
+  instance:
+    prefer-ip-address: true
+    lease-expiration-duration-in-seconds: 15
+    lease-renewal-interval-in-seconds: 5
+  client:
+    serviceUrl:
+      defaultZone: http://172.16.17.16:9871/eureka
+    registry-fetch-interval-seconds: 5
+
+logging:
+  level:
+    org.springframework: debug
+
+server:
+  servlet:
+    context-path: /
+  port: 8086
+  tomcat:
+    basedir: /home/work/tomcat
+file:
+  file:
+    ext: .doc,.pdf,.docx
+  image:
+    ext: .jpg,.png,.jpeg,.svg,.bmp,.tif,.gif
+  service:
+    url: https://dev.jishizulin.com.cn/
+
+application:
+  description: 文件

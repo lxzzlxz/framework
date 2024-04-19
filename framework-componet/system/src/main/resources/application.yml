@@ -1,0 +1,106 @@
+spring:
+  #data source config
+  application:
+    name: system
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  datasource:
+    driver: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/crec_dmp_db?useUnicode=true&characterEncoding=utf8&useSSL=false&allowMultiQueries=true
+    username: root
+    password: Lxzzlxz5@
+    initsize: 10
+    maxActive: 20
+    minIdle: 10
+    maxWait: 120000
+    poolPreparedStatements: false
+    maxOpenPreparedStatements: -1
+    validationQuery: select 1
+    testOnborrow: true
+    testOnReturn: true
+    testWhileIdle: true
+    timeBetweenEvictionRunsMillis: 120000
+    filters: log4j,stat
+  redis:
+    host: localhost
+    port: 6379
+    password:
+    database: 0
+    jedis:
+      pool:
+        max-active: 20
+        max-idle: 10
+        max-wait: 10000
+        min-idle: 0
+    timeout: 10000
+#mybatis config
+mybatis:
+  mapperLocations: classpath:com/legao/server/framework/**/dao/*Dao.xml
+  configuration:
+    map-underscore-to-camel-case: true
+session:
+  domain: legao.crec
+  expire: 1800
+
+eureka:
+  instance:
+    prefer-ip-address: true
+    lease-expiration-duration-in-seconds: 15
+    lease-renewal-interval-in-seconds: 5
+  client:
+    serviceUrl:
+      defaultZone: http://127.0.0.1:9871/eureka
+    registry-fetch-interval-seconds: 5
+
+#hystrix超时
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 20000
+#feign配置
+feign:
+  hystrix:
+    enabled: true
+  client:
+    config:
+      default:
+        connectTimeout: 3000
+        readTimeout: 20000
+        loggerLevel: basic
+
+server:
+  servlet:
+    context-path: /
+  port: 8087
+async:
+  default:
+    conduitType: 1
+log:
+  path: D:/home/work/logs
+
+user:
+  authenticate:
+    url: https://idcert.market.alicloudapi.com/idcard
+    appCode: 813a85b0cd2f49309cc1b0b740516230
+    appKey: 25142016
+    appSecret: f456f118750b488821cfc26cde71a17f
+  demanderAttachmentPath: D:/home/work/config_files/demand/战略需求方账户申请模板.docx
+  secondaryDistributorAttachmentPath: D:/home/work/config_files/demand/区域经销商需求方子账户申请模板.docx
+application:
+  description: 系统相关
+
+redisson:
+  redisModel: SINGLE
+  singleConfig:
+    address: redis://10.4.9.78:6379
+  password: 8mCN0uLG+j
+jpush:
+  appKey: 93d4e6e32619a05a21bd1959
+  masterSecret: 096c07a0ac4fee0c90a99f5c
+recruitment:
+  roleId: 19
+  programId: 1041

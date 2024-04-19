@@ -1,0 +1,104 @@
+spring :
+  #data source config
+  application:
+    name: system
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  datasource :
+    driver : com.mysql.jdbc.Driver
+    url: jdbc:mysql://172.16.17.220:3306/crec_dmp_db?useUnicode=true&characterEncoding=utf8&useSSL=false&allowMultiQueries=true
+    username : zl_db
+    password : Legaoyun@2018
+    initsize : 10
+    maxActive : 30
+    minIdle : 10
+    maxWait : 120000
+    poolPreparedStatements : false
+    maxOpenPreparedStatements : -1
+    validationQuery : select 1
+    testOnborrow : true
+    testOnReturn : true
+    testWhileIdle : true
+    timeBetweenEvictionRunsMillis : 120000
+    filters : log4j,stat
+  redis:
+    host: 172.16.17.160
+    port: 6379
+    password: rspwd.Crit
+    database: 0
+    jedis:
+      pool:
+        max-active: 20
+        max-idle: 10
+        max-wait: 10000
+        min-idle: 0
+    timeout: 10000
+redisson:
+  redisModel: SINGLE
+  singleConfig:
+    address: redis://172.16.17.160:6379
+  password: rspwd.Crit
+#mybatis config
+mybatis :
+  mapperLocations: classpath:com/legao/server/framework/**/dao/*Dao.xml
+  configuration:
+    map-underscore-to-camel-case: true
+session :
+  domain : legao.crec
+  expire : 1800
+async:
+  default:
+    conduitType: 1
+eureka:
+  instance:
+    prefer-ip-address: true
+    lease-expiration-duration-in-seconds: 15
+    lease-renewal-interval-in-seconds: 5
+  client:
+    serviceUrl:
+      defaultZone: http://172.16.17.6:9871/eureka,http://172.16.17.7:9871/eureka
+    registry-fetch-interval-seconds: 5
+#hystrix超时
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 20000
+#feign配置
+feign:
+  hystrix:
+    enabled: true
+  client:
+    config:
+      default:
+        connectTimeout: 3000
+        readTimeout: 20000
+        loggerLevel: basic
+
+server:
+  servlet:
+    context-path: /
+  port: 8087
+
+log:
+  path: /home/work/logs
+
+user:
+  authenticate:
+    url: https://idcert.market.alicloudapi.com/idcard
+    appCode: 813a85b0cd2f49309cc1b0b740516230
+    appKey: 25142016
+    appSecret: f456f118750b488821cfc26cde71a17f
+  demanderAttachmentPath: /home/work/config_files/demand/战略需求方账户申请模板.docx
+  secondaryDistributorAttachmentPath: /home/work/config_files/demand/区域经销商需求方子账户申请模板.docx
+application:
+  description: 系统相关
+jpush:
+  appKey: 93d4e6e32619a05a21bd1959
+  masterSecret: 096c07a0ac4fee0c90a99f5c
+recruitment:
+  roleId: 19
+  programId: 19

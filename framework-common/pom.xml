@@ -9,8 +9,8 @@
         <version>1.0.0.20240404</version>
     </parent>
     <groupId>Liuzemin</groupId>
-    <artifactId>framework-componet</artifactId>
+    <artifactId>framework-common</artifactId>
     <version>1.0-SNAPSHOT</version>
-
+    <packaging>pom</packaging>
 
 </project>
