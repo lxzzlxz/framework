@@ -1,7 +1,7 @@
 package com.liuzemin.server.framework.security.auth.controller;
 
-import com.legao.server.framework.model.helper.RHelper;
-import com.legao.server.framework.model.model.R;
+import com.liuzemin.server.framework.model.helper.RHelper;
+import com.liuzemin.server.framework.model.model.R;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +19,7 @@ import java.util.Set;
 public class UserOnlineController {
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
-    private static final String SESSION_PREFIX = "legao_userid_legao.crec_";
+    private static final String SESSION_PREFIX = "liuzemin_userid_liuzemin.crec_";
 
     @GetMapping("/number")
     @ApiOperation("统计前台在线人数")

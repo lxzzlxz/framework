@@ -36,11 +36,11 @@ spring :
     timeout: 10000
 #mybatis config
 mybatis :
-  mapperLocations: classpath:com/legao/server/framework/**/dao/*Dao.xml
+  mapperLocations: classpath:com/liuzemin/server/framework/**/dao/*Dao.xml
   configuration:
     map-underscore-to-camel-case: true
 session :
-  domain : legao.crec
+  domain : liuzemin.crec
   expire : 1800
 
 eureka:

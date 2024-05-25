@@ -14,7 +14,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableFeignClients(basePackages = "com.liuzemin.server")
 @EnableHystrix
 @EnableAsync
-//@MapperScan(basePackages = {"com.legao.server.framework.*.*.dao","com.legao.server.framework.*.dao"})
+//@MapperScan(basePackages = {"com.liuzemin.server.framework.*.*.dao","com.liuzemin.server.framework.*.dao"})
 public class SecurityServer{
 
 

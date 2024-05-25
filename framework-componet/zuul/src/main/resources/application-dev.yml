@@ -79,7 +79,7 @@ ribbon:
   ReadTimeout: 20000
 
 session :
-  domain : legao.crec
+  domain : liuzemin.crec
   expire : 1800
   app-expire: 2592000
 

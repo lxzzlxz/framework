@@ -1,16 +1,10 @@
 package com.liuzemin.server.framework.model.model;
 
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.util.Date;
 import java.util.List;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class User extends UserPriciple {
 
 	private static final long serialVersionUID = 3851565970060361266L;
@@ -80,6 +74,109 @@ public class User extends UserPriciple {
 	@ApiModelProperty("时间格式")
 	private String dateFormatStr;
 
+	public String getIdCardFront() {
+		return idCardFront;
+	}
+
+	public void setIdCardFront(String idCardFront) {
+		this.idCardFront = idCardFront;
+	}
+
+	public String getIdCardSide() {
+		return idCardSide;
+	}
+
+	public void setIdCardSide(String idCardSide) {
+		this.idCardSide = idCardSide;
+	}
+
+	public Integer getAuthStatus() {
+		return authStatus;
+	}
+
+	public void setAuthStatus(Integer authStatus) {
+		this.authStatus = authStatus;
+	}
+
+	public String getIdCardImg() {
+		return idCardImg;
+	}
+
+	public void setIdCardImg(String idCardImg) {
+		this.idCardImg = idCardImg;
+	}
+
+	public Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
+
+	public Integer getDeleteFlag() {
+		return deleteFlag;
+	}
+
+	public void setDeleteFlag(Integer deleteFlag) {
+		this.deleteFlag = deleteFlag;
+	}
+
+	public Date getBirthDate() {
+		return birthDate;
+	}
+
+	public void setBirthDate(Date birthDate) {
+		this.birthDate = birthDate;
+	}
+
+	public Integer getGender() {
+		return gender;
+	}
+
+	public void setGender(Integer gender) {
+		this.gender = gender;
+	}
+
+	public List<Long> getUserIds() {
+		return userIds;
+	}
+
+	public void setUserIds(List<Long> userIds) {
+		this.userIds = userIds;
+	}
+
+	public String getHeadImg() {
+		return headImg;
+	}
+
+	public void setHeadImg(String headImg) {
+		this.headImg = headImg;
+	}
+
+	public String getOldPassword() {
+		return oldPassword;
+	}
+
+	public void setOldPassword(String oldPassword) {
+		this.oldPassword = oldPassword;
+	}
+
+	public String getRealName() {
+		return realName;
+	}
+
+	public void setRealName(String realName) {
+		this.realName = realName;
+	}
+
+	public Integer getAuthTimes() {
+		return authTimes;
+	}
+
+	public void setAuthTimes(Integer authTimes) {
+		this.authTimes = authTimes;
+	}
 
 	@Override
 	public String toString() {
@@ -98,5 +195,45 @@ public class User extends UserPriciple {
 				", realName='" + realName + '\'' +
 				", authTimes=" + authTimes +
 				'}';
+	}
+
+	public List<Long> getIds() {
+		return ids;
+	}
+
+	public void setIds(List<Long> ids) {
+		this.ids = ids;
+	}
+
+	public String getDateType() {
+		return dateType;
+	}
+
+	public void setDateType(String dateType) {
+		this.dateType = dateType;
+	}
+
+	public String getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(String startDate) {
+		this.startDate = startDate;
+	}
+
+	public String getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
+	}
+
+	public String getDateFormatStr() {
+		return dateFormatStr;
+	}
+
+	public void setDateFormatStr(String dateFormatStr) {
+		this.dateFormatStr = dateFormatStr;
 	}
 }

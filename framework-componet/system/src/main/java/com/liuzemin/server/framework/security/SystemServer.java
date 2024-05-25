@@ -9,13 +9,13 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 //import org.mybatis.spring.annotation.MapperScan;
 
-@SpringBootApplication(scanBasePackages = "com.test")
+@SpringBootApplication(scanBasePackages = "com.liuzemin.server")
 @EnableSwagger2
 @EnableDiscoveryClient
-@EnableFeignClients(basePackages = "com.test")
+@EnableFeignClients(basePackages = "com.liuzemin.server")
 @EnableHystrix
 @EnableScheduling
-//@MapperScan(basePackages = {"com.legao.server.framework.*.*.dao"})
+//@MapperScan(basePackages = {"com.liuzemin.server.framework.*.*.dao"})
 public class SystemServer {
 
     public static void main(String[] args) {

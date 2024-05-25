@@ -5,7 +5,7 @@ import com.liuzemin.server.framework.model.context.RequestContext;
 import java.io.Serializable;
 import java.util.Date;
 
-
+ 
 public class BaseModel implements Serializable {
 
     private static final long serialVersionUID = -2448582046557033044L;

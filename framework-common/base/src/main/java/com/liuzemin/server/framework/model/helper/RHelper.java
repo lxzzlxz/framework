@@ -2,8 +2,6 @@ package com.liuzemin.server.framework.model.helper;
 
 import com.liuzemin.server.framework.model.constant.ResponseCode;
 import com.liuzemin.server.framework.model.model.R;
-import com.liuzemin.server.framework.model.constant.ResponseCode;
-import com.liuzemin.server.framework.model.model.R;
 import org.springframework.util.StringUtils;
 
 public class RHelper {

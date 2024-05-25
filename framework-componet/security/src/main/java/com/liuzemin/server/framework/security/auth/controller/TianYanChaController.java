@@ -1,14 +1,14 @@
 package com.liuzemin.server.framework.security.auth.controller;
 
-import com.legao.server.framework.model.annotation.RepeatSubmit;
-import com.legao.server.framework.model.context.RequestContext;
-import com.legao.server.framework.model.helper.RHelper;
-import com.legao.server.framework.model.model.R;
-import com.legao.server.framework.model.model.User;
-import com.legao.server.framework.security.auth.model.TianYanChaBaseInfo;
-import com.legao.server.framework.security.auth.model.TianYanChaResult;
-import com.legao.server.framework.security.auth.util.TianYanChaUtil;
-import com.legao.server.framework.security.user.service.IUserService;
+import com.liuzemin.server.framework.model.annotation.RepeatSubmit;
+import com.liuzemin.server.framework.model.context.RequestContext;
+import com.liuzemin.server.framework.model.helper.RHelper;
+import com.liuzemin.server.framework.model.model.R;
+import com.liuzemin.server.framework.model.model.User;
+import com.liuzemin.server.framework.security.auth.model.TianYanChaBaseInfo;
+import com.liuzemin.server.framework.security.auth.model.TianYanChaResult;
+import com.liuzemin.server.framework.security.auth.util.TianYanChaUtil;
+import com.liuzemin.server.framework.security.user.service.IUserService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;

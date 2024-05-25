@@ -12,9 +12,10 @@ import com.liuzemin.server.framework.model.context.RequestContext;
 import com.liuzemin.server.framework.model.helper.MD5Helper;
 import com.liuzemin.server.framework.model.helper.RHelper;
 import com.liuzemin.server.framework.model.helper.ResultMapHelper;
+import com.liuzemin.server.framework.model.helper.VerifyCodeHelper;
 import com.liuzemin.server.framework.model.model.*;
 import com.liuzemin.server.framework.model.service.IAuthCheckService;
-/*import com.liuzemin.server.framework.model.utils.RedisKeyType;
+import com.liuzemin.server.framework.model.utils.RedisKeyType;
 import com.liuzemin.server.framework.security.auth.service.ISecurityService;
 import com.liuzemin.server.framework.security.feign.*;
 import com.liuzemin.server.framework.security.permission.dao.IUserRoleProgramDao;
@@ -25,7 +26,7 @@ import com.liuzemin.server.framework.security.role.dao.IRoleDao;
 import com.liuzemin.server.framework.security.role.model.Role;
 import com.liuzemin.server.framework.security.user.dao.IUserDao;
 import com.liuzemin.server.framework.security.user.service.IUserService;
-import com.liuzemin.server.framework.security.user.vo.Recovery;*/
+import com.liuzemin.server.framework.security.user.vo.Recovery;
 import com.liuzemin.server.framework.security.auth.service.ISecurityService;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -51,66 +52,6 @@ import java.util.stream.Collectors;
 
 @Service
 public class SecurityService implements ISecurityService {
-    @Override
-    public Map<String, Object> adminLogin(String username, String password, String imageCode, String type) {
-        return null;
-    }
-
-    @Override
-    public Map<String, Object> login(String username, String password, String imageCode, String type, String loginModel) {
-        return null;
-    }
-
-    @Override
-    public Map<String, Object> appLogin(String username, String password, String imageCode, String type, String loginModel) {
-        return null;
-    }
-
-    @Override
-    public Map<String, Object> logout(String sessionId) {
-        return null;
-    }
-
-    @Override
-    public Map<String, Object> register(User user, String code, String imgCode, String type) {
-        return null;
-    }
-
-    @Override
-    public Map<String, Object> forgetPassword(User user, String code, String imgCode, String type) {
-        return null;
-    }
-
-    @Override
-    public void getImageCode(String type) {
-
-    }
-
-    @Override
-    public void getImageCodeV2(String type) {
-
-    }
-
-    @Override
-    public Map<String, Object> getUserInformation() {
-        return null;
-    }
-
-    @Override
-    public Map<String, Object> validImageCodeAndPhone(String phone, String imageCode, String flag, String type) {
-        return null;
-    }
-
-    @Override
-    public R<String> socialDemanderRegister(User user, String code, String imageCode, String type) {
-        return null;
-    }
-
-    @Override
-    public Map<String, Object> registerAndLogin(User user, String code, String imageCode, String type) {
-        return null;
-    }
-/*
 
     public static final Logger log = LoggerFactory.getLogger(SecurityService.class);
 
@@ -946,13 +887,13 @@ public class SecurityService implements ISecurityService {
     }
 
 
-    */
+
 /**
      * @param phone 手机号
      * @param code  图形验证码
      * @param flag  1：注册/修改接口 2：忘记密码接口
      * @return 验证结果
-     *//*
+     */
 
     @Override
     public Map<String, Object> validImageCodeAndPhone(String phone, String code, String flag, String type) {
@@ -988,7 +929,4 @@ public class SecurityService implements ISecurityService {
             }
         }
     }
-
-*/
-
 }

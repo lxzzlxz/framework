@@ -9,7 +9,7 @@ spring :
     driver : com.mysql.jdbc.Driver
     url: jdbc:mysql://172.16.17.27:3306/crec_dmp_db?useUnicode=true&characterEncoding=utf8&useSSL=false&allowMultiQueries=true
     username : zl_db
-    password : Legaoyun@2021
+    password : liuzeminyun@2021
     initsize : 10
     maxActive : 20
     minIdle : 10
@@ -41,11 +41,11 @@ redisson:
   password: rspwd.Crit
 #mybatis config
 mybatis :
-  mapperLocations: classpath:com/legao/server/framework/**/dao/*Dao.xml
+  mapperLocations: classpath:com/liuzemin/server/framework/**/dao/*Dao.xml
   configuration:
     map-underscore-to-camel-case: true
 session :
-  domain : legao.crec
+  domain : liuzemin.crec
   expire : 1800
 async:
   default:

@@ -1,10 +1,11 @@
 package com.liuzemin.server.framework.model.helper;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 public class MD5Helper {
 
     private static final Log log = LogFactory.getLog(MD5Helper.class);

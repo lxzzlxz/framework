@@ -15,7 +15,7 @@ public class KeyValueModel implements Serializable {
 
     public KeyValueModel(){};
 
-    public KeyValueModel(String key, String value){
+    public KeyValueModel( String key,String value){
         this.key=key;
         this.value=value;
     };

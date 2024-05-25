@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace=".dao.CrecOrderTDao">
+
+    <resultMap id="BaseResultMap" type=".entity.CrecOrderT">
+        <!--@Table crec_order_t-->
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="enterpriseId" column="enterprise_id" jdbcType="INTEGER"/>
+        <result property="orderType" column="order_type" jdbcType="INTEGER"/>
+        <result property="tradeNo" column="trade_no" jdbcType="VARCHAR"/>
+        <result property="channelNo" column="channel_no" jdbcType="VARCHAR"/>
+        <result property="tradeSource" column="trade_source" jdbcType="INTEGER"/>
+        <result property="outTradeNo" column="out_trade_no" jdbcType="VARCHAR"/>
+        <result property="orderNo" column="order_no" jdbcType="VARCHAR"/>
+        <result property="orderStatus" column="order_status" jdbcType="INTEGER"/>
+        <result property="totalAmount" column="total_amount" jdbcType="NUMERIC"/>
+        <result property="subject" column="subject" jdbcType="VARCHAR"/>
+        <result property="body" column="body" jdbcType="VARCHAR"/>
+        <result property="purchaseTerm" column="purchase_term" jdbcType="INTEGER"/>
+        <result property="purchaseTermUnit" column="purchase_term_unit" jdbcType="INTEGER"/>
+        <result property="membershipRightsId" column="membership_rights_id" jdbcType="INTEGER"/>
+        <result property="discount" column="discount" jdbcType="NUMERIC"/>
+        <result property="deleteFlag" column="delete_flag" jdbcType="INTEGER"/>
+        <result property="invoiceStatus" column="invoice_status" jdbcType="INTEGER"/>
+        <result property="pcsDate" column="pcs_date" jdbcType="TIMESTAMP"/>
+        <result property="paymentTime" column="payment_time" jdbcType="TIMESTAMP"/>
+        <result property="refundDate" column="refund_date" jdbcType="TIMESTAMP"/>
+        <result property="closeDate" column="close_date" jdbcType="TIMESTAMP"/>
+        <result property="refundAmount" column="refund_amount" jdbcType="NUMERIC"/>
+        <result property="createdBy" column="created_by" jdbcType="INTEGER"/>
+        <result property="creationDate" column="creation_date" jdbcType="TIMESTAMP"/>
+        <result property="lastUpdatedBy" column="last_updated_by" jdbcType="INTEGER"/>
+        <result property="lastUpdateDate" column="last_update_date" jdbcType="TIMESTAMP"/>
+        <result property="amountPayable" column="amount_payable" jdbcType="NUMERIC"/>
+        <result property="invoiceId" column="invoice_id" jdbcType="INTEGER"/>
+        <result property="refundStatus" column="refund_status" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="BaseResultMap">
+        select
+          id, enterprise_id, order_type, trade_no, channel_no, trade_source, out_trade_no, order_no, order_status, total_amount, subject, body, purchase_term, purchase_term_unit, membership_rights_id, discount, delete_flag, invoice_status, pcs_date, payment_time, refund_date, close_date, refund_amount, created_by, creation_date, last_updated_by, last_update_date, amount_payable, invoice_id, refund_status
+        from crec_store.crec_order_t
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="BaseResultMap">
+        select
+          id, enterprise_id, order_type, trade_no, channel_no, trade_source, out_trade_no, order_no, order_status, total_amount, subject, body, purchase_term, purchase_term_unit, membership_rights_id, discount, delete_flag, invoice_status, pcs_date, payment_time, refund_date, close_date, refund_amount, created_by, creation_date, last_updated_by, last_update_date, amount_payable, invoice_id, refund_status
+        from crec_store.crec_order_t
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="BaseResultMap">
+        select
+          id, enterprise_id, order_type, trade_no, channel_no, trade_source, out_trade_no, order_no, order_status, total_amount, subject, body, purchase_term, purchase_term_unit, membership_rights_id, discount, delete_flag, invoice_status, pcs_date, payment_time, refund_date, close_date, refund_amount, created_by, creation_date, last_updated_by, last_update_date, amount_payable, invoice_id, refund_status
+        from crec_store.crec_order_t
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="enterpriseId != null">
+                and enterprise_id = #{enterpriseId}
+            </if>
+            <if test="orderType != null">
+                and order_type = #{orderType}
+            </if>
+            <if test="tradeNo != null and tradeNo != ''">
+                and trade_no = #{tradeNo}
+            </if>
+            <if test="channelNo != null and channelNo != ''">
+                and channel_no = #{channelNo}
+            </if>
+            <if test="tradeSource != null">
+                and trade_source = #{tradeSource}
+            </if>
+            <if test="outTradeNo != null and outTradeNo != ''">
+                and out_trade_no = #{outTradeNo}
+            </if>
+            <if test="orderNo != null and orderNo != ''">
+                and order_no = #{orderNo}
+            </if>
+            <if test="orderStatus != null">
+                and order_status = #{orderStatus}
+            </if>
+            <if test="totalAmount != null">
+                and total_amount = #{totalAmount}
+            </if>
+            <if test="subject != null and subject != ''">
+                and subject = #{subject}
+            </if>
+            <if test="body != null and body != ''">
+                and body = #{body}
+            </if>
+            <if test="purchaseTerm != null">
+                and purchase_term = #{purchaseTerm}
+            </if>
+            <if test="purchaseTermUnit != null">
+                and purchase_term_unit = #{purchaseTermUnit}
+            </if>
+            <if test="membershipRightsId != null">
+                and membership_rights_id = #{membershipRightsId}
+            </if>
+            <if test="discount != null">
+                and discount = #{discount}
+            </if>
+            <if test="deleteFlag != null">
+                and delete_flag = #{deleteFlag}
+            </if>
+            <if test="invoiceStatus != null">
+                and invoice_status = #{invoiceStatus}
+            </if>
+            <if test="pcsDate != null">
+                and pcs_date = #{pcsDate}
+            </if>
+            <if test="paymentTime != null">
+                and payment_time = #{paymentTime}
+            </if>
+            <if test="refundDate != null">
+                and refund_date = #{refundDate}
+            </if>
+            <if test="closeDate != null">
+                and close_date = #{closeDate}
+            </if>
+            <if test="refundAmount != null">
+                and refund_amount = #{refundAmount}
+            </if>
+            <if test="createdBy != null">
+                and created_by = #{createdBy}
+            </if>
+            <if test="creationDate != null">
+                and creation_date = #{creationDate}
+            </if>
+            <if test="lastUpdatedBy != null">
+                and last_updated_by = #{lastUpdatedBy}
+            </if>
+            <if test="lastUpdateDate != null">
+                and last_update_date = #{lastUpdateDate}
+            </if>
+            <if test="amountPayable != null">
+                and amount_payable = #{amountPayable}
+            </if>
+            <if test="invoiceId != null">
+                and invoice_id = #{invoiceId}
+            </if>
+            <if test="refundStatus != null">
+                and refund_status = #{refundStatus}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into crec_store.crec_order_t(enterprise_id, order_type, trade_no, channel_no, trade_source, out_trade_no, order_no, order_status, total_amount, subject, body, purchase_term, purchase_term_unit, membership_rights_id, discount, delete_flag, invoice_status, pcs_date, payment_time, refund_date, close_date, refund_amount, created_by, creation_date, last_updated_by, last_update_date, amount_payable, invoice_id, refund_status)
+        values (#{enterpriseId}, #{orderType}, #{tradeNo}, #{channelNo}, #{tradeSource}, #{outTradeNo}, #{orderNo}, #{orderStatus}, #{totalAmount}, #{subject}, #{body}, #{purchaseTerm}, #{purchaseTermUnit}, #{membershipRightsId}, #{discount}, #{deleteFlag}, #{invoiceStatus}, #{pcsDate}, #{paymentTime}, #{refundDate}, #{closeDate}, #{refundAmount}, #{createdBy}, #{creationDate}, #{lastUpdatedBy}, #{lastUpdateDate}, #{amountPayable}, #{invoiceId}, #{refundStatus})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update crec_store.crec_order_t
+        <set>
+            <if test="enterpriseId != null">
+                enterprise_id = #{enterpriseId},
+            </if>
+            <if test="orderType != null">
+                order_type = #{orderType},
+            </if>
+            <if test="tradeNo != null and tradeNo != ''">
+                trade_no = #{tradeNo},
+            </if>
+            <if test="channelNo != null and channelNo != ''">
+                channel_no = #{channelNo},
+            </if>
+            <if test="tradeSource != null">
+                trade_source = #{tradeSource},
+            </if>
+            <if test="outTradeNo != null and outTradeNo != ''">
+                out_trade_no = #{outTradeNo},
+            </if>
+            <if test="orderNo != null and orderNo != ''">
+                order_no = #{orderNo},
+            </if>
+            <if test="orderStatus != null">
+                order_status = #{orderStatus},
+            </if>
+            <if test="totalAmount != null">
+                total_amount = #{totalAmount},
+            </if>
+            <if test="subject != null and subject != ''">
+                subject = #{subject},
+            </if>
+            <if test="body != null and body != ''">
+                body = #{body},
+            </if>
+            <if test="purchaseTerm != null">
+                purchase_term = #{purchaseTerm},
+            </if>
+            <if test="purchaseTermUnit != null">
+                purchase_term_unit = #{purchaseTermUnit},
+            </if>
+            <if test="membershipRightsId != null">
+                membership_rights_id = #{membershipRightsId},
+            </if>
+            <if test="discount != null">
+                discount = #{discount},
+            </if>
+            <if test="deleteFlag != null">
+                delete_flag = #{deleteFlag},
+            </if>
+            <if test="invoiceStatus != null">
+                invoice_status = #{invoiceStatus},
+            </if>
+            <if test="pcsDate != null">
+                pcs_date = #{pcsDate},
+            </if>
+            <if test="paymentTime != null">
+                payment_time = #{paymentTime},
+            </if>
+            <if test="refundDate != null">
+                refund_date = #{refundDate},
+            </if>
+            <if test="closeDate != null">
+                close_date = #{closeDate},
+            </if>
+            <if test="refundAmount != null">
+                refund_amount = #{refundAmount},
+            </if>
+            <if test="createdBy != null">
+                created_by = #{createdBy},
+            </if>
+            <if test="creationDate != null">
+                creation_date = #{creationDate},
+            </if>
+            <if test="lastUpdatedBy != null">
+                last_updated_by = #{lastUpdatedBy},
+            </if>
+            <if test="lastUpdateDate != null">
+                last_update_date = #{lastUpdateDate},
+            </if>
+            <if test="amountPayable != null">
+                amount_payable = #{amountPayable},
+            </if>
+            <if test="invoiceId != null">
+                invoice_id = #{invoiceId},
+            </if>
+            <if test="refundStatus != null">
+                refund_status = #{refundStatus},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from crec_store.crec_order_t where id = #{id}
+    </delete>
+
+</mapper>

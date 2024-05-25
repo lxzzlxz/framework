@@ -1,6 +1,5 @@
 package com.liuzemin.server.framework.model.model;
 
-
 import lombok.Data;
 
 import java.io.Serializable;

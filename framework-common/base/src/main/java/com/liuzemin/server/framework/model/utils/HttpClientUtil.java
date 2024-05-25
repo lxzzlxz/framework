@@ -22,6 +22,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Created by Administrator on 2018/4/27.
+ */
+
 public class HttpClientUtil {
     private static RequestConfig getConfig() {
         RequestConfig requestConfig = RequestConfig.custom()
@@ -154,4 +158,5 @@ public class HttpClientUtil {
         }
         return resultString;
     }
+
 }
