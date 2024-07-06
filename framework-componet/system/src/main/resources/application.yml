@@ -7,7 +7,7 @@ spring:
     time-zone: GMT+8
   datasource:
     driver: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/crec_dmp_db?useUnicode=true&characterEncoding=utf8&useSSL=false&allowMultiQueries=true
+    url: jdbc:mysql://127.0.0.1:3306/crec_dmp_db?useUnicode=true&characterEncoding=utf8&useSSL=false&allowMultiQueries=true
     username: root
     password: Lxzzlxz5@
     initsize: 10
@@ -96,8 +96,8 @@ application:
 redisson:
   redisModel: SINGLE
   singleConfig:
-    address: redis://10.4.9.78:6379
-  password: 8mCN0uLG+j
+    address: redis://127.0.0.1:6379
+  password:
 jpush:
   appKey: 93d4e6e32619a05a21bd1959
   masterSecret: 096c07a0ac4fee0c90a99f5c
