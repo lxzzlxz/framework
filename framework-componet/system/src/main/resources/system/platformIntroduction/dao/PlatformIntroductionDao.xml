@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liuzemin.server.framework.system.platformIntroduction.dao.PlatformIntroductionDao">
+
+    <resultMap type="com.liuzemin.server.framework.system.platformIntroduction.model.PlatformIntroduction"
+               id="TplPlatformIntroductionTMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="content" column="content" jdbcType="VARCHAR"/>
+        <result property="picPath" column="pic_path" jdbcType="VARCHAR"/>
+        <result property="deleteFlag" column="delete_flag" jdbcType="INTEGER"/>
+        <result property="creationDate" column="creation_date" jdbcType="TIMESTAMP"/>
+        <result property="createdBy" column="created_by" jdbcType="INTEGER"/>
+        <result property="lastUpdateDate" column="last_update_date" jdbcType="TIMESTAMP"/>
+        <result property="lastUpdatedBy" column="last_updated_by" jdbcType="INTEGER"/>
+    </resultMap>
+    <sql id="page_condition">
+        <if test="platformIntroduction.type != null and platformIntroduction.type != ''">
+            and type = #{platformIntroduction.type}
+        </if>
+        <if test="platformIntroduction.deleteFlag != null">
+            and delete_flag = #{platformIntroduction.deleteFlag}
+        </if>
+    </sql>
+    <!--查询单个-->
+    <select id="queryById"
+            resultType="com.liuzemin.server.framework.system.platformIntroduction.model.PlatformIntroduction">
+        select
+          id, content, pic_path, delete_flag, creation_date, created_by, last_update_date, last_updated_by
+        from tpl_platform_introduction_t
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="findList"
+            resultType="com.liuzemin.server.framework.system.platformIntroduction.model.PlatformIntroduction">
+        select
+        id, content, pic_path,type, delete_flag, creation_date, created_by, last_update_date, last_updated_by
+        from tpl_platform_introduction_t
+        <where>
+            <if test="type != null and type != ''">
+                and type = #{type}
+            </if>
+            <if test="deleteFlag != null">
+                and delete_flag = #{deleteFlag}
+            </if>
+        </where>
+    </select>
+    <select id="findPageList"
+            resultType="com.liuzemin.server.framework.system.platformIntroduction.model.PlatformIntroduction">
+        select
+        id, content, pic_path, delete_flag,type, creation_date, created_by, last_update_date, last_updated_by
+        from tpl_platform_introduction_t
+        <where>
+            <include refid="page_condition"></include>
+        </where>
+        limit #{page.startIndex}, #{page.pageSize}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="findPageListCount" resultType="long">
+        select
+        count(1)
+        from tpl_platform_introduction_t
+        <where>
+            <include refid="page_condition"></include>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into tpl_platform_introduction_t(content, pic_path, type,delete_flag, creation_date, created_by, last_update_date, last_updated_by)
+        values (#{content}, #{picPath}, #{type}, #{deleteFlag}, #{creationDate}, #{createdBy}, #{lastUpdateDate}, #{lastUpdatedBy})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update tpl_platform_introduction_t
+        <set>
+            <if test="content != null and content != ''">
+                content = #{content},
+            </if>
+            <if test="picPath != null and picPath != ''">
+                pic_path = #{picPath},
+            </if>
+
+            <if test="type != null and type != ''">
+                type = #{type},
+            </if>
+            <if test="deleteFlag != null">
+                delete_flag = #{deleteFlag},
+            </if>
+            <if test="lastUpdateDate != null">
+                last_update_date = #{lastUpdateDate},
+            </if>
+            <if test="lastUpdatedBy != null">
+                last_updated_by = #{lastUpdatedBy},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from tpl_platform_introduction_t where id = #{id}
+    </delete>
+
+</mapper>

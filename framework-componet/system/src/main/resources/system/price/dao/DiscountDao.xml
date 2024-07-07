@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liuzemin.server.framework.system.price.dao.IDiscountDao">
+
+    <resultMap type="com.liuzemin.server.framework.system.price.model.Discount" id="DiscountMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="startTime" column="start_time" jdbcType="TIMESTAMP"/>
+        <result property="endTime" column="end_time" jdbcType="TIMESTAMP"/>
+        <result property="discount" column="discount" jdbcType="VARCHAR"/>
+        <result property="type" column="type" jdbcType="INTEGER"/>
+        <result property="creationDate" column="creation_date" jdbcType="TIMESTAMP"/>
+        <result property="createdBy" column="created_by" jdbcType="INTEGER"/>
+        <result property="lastUpdateDate" column="last_update_date" jdbcType="TIMESTAMP"/>
+        <result property="lastUpdatedBy" column="last_updated_by" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="pageCondition">
+        <where>
+            <if test="discount.id != null">
+                and id= #{discount.id}
+            </if>
+            <if test="discount.startTime != null">
+                and start_time= #{discount.startTime}
+            </if>
+            <if test="discount.endTime != null">
+                and end_time= #{discount.endTime}
+            </if>
+            <if test="discount.discount != null">
+                and discount= #{discount.discount}
+            </if>
+            <if test="discount.type != null">
+                and type= #{discount.type}
+            </if>
+            <if test="discount.creationDate != null">
+                and creation_date= #{discount.creationDate}
+            </if>
+            <if test="discount.createdBy != null">
+                and created_by= #{discount.createdBy}
+            </if>
+            <if test="discount.lastUpdateDate != null">
+                and last_update_date= #{discount.lastUpdateDate}
+            </if>
+            <if test="discount.lastUpdatedBy != null">
+                and last_updated_by= #{discount.lastUpdatedBy}
+            </if>
+        </where>
+
+    </sql>
+
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="DiscountMap">
+        select id,
+               start_time,
+               end_time,
+               discount,
+               type,
+               creation_date,
+               created_by,
+               last_update_date,
+               last_updated_by
+        from crec_dmp_db.tpl_discount_t
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="findPageList" resultMap="DiscountMap">
+        select id,
+        start_time,
+        end_time,
+        discount,
+        type,
+        creation_date,
+        created_by,
+        last_update_date,
+        last_updated_by
+        from crec_dmp_db.tpl_discount_t
+        <include refid="pageCondition"></include>
+        order by id desc
+        limit #{page.startIndex}, #{page.pageSize}
+
+    </select>
+
+
+    <!--查询指定行数据-->
+    <select id="findPageListCount" resultType="long">
+        select count(*)
+        from crec_dmp_db.tpl_discount_t
+        <include refid="pageCondition"></include>
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="DiscountMap">
+        select
+        *
+        from crec_dmp_db.tpl_discount_t
+        <where>
+            <if test="startTime != null">
+                start_time= #{startTime}
+            </if>
+            <if test="endTime != null">
+                end_time= #{endTime}
+            </if>
+            <if test="discount != null">
+                discount= #{discount}
+            </if>
+            <if test="type != null">
+                type= #{type}
+            </if>
+            <if test="creationDate != null">
+                creation_date= #{creationDate}
+            </if>
+            <if test="createdBy != null">
+                created_by= #{createdBy}
+            </if>
+            <if test="lastUpdateDate != null">
+                last_update_date= #{lastUpdateDate}
+            </if>
+            <if test="lastUpdatedBy != null">
+                last_updated_by= #{lastUpdatedBy}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into crec_dmp_db.tpl_discount_t(start_time, end_time, discount, type, creation_date, created_by,
+                                               last_update_date, last_updated_by)
+        values (#{startTime}, #{endTime}, #{discount}, #{type}, #{creationDate}, #{createdBy}, #{lastUpdateDate},
+                #{lastUpdatedBy})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update crec_dmp_db.tpl_discount_t
+        <set>
+            <if test="startTime != null">
+                start_time= #{startTime},
+            </if>
+            <if test="endTime != null">
+                end_time= #{endTime},
+            </if>
+            <if test="discount != null">
+                discount= #{discount},
+            </if>
+            <if test="type != null">
+                type= #{type},
+            </if>
+            <if test="lastUpdateDate != null">
+                last_update_date= #{lastUpdateDate},
+            </if>
+            <if test="lastUpdatedBy != null">
+                last_updated_by= #{lastUpdatedBy},
+            </if>
+        </set>
+        where id= #{id}
+    </update><!--通过主键修改数据-->
+
+    <update id="updateType">
+        update crec_dmp_db.tpl_discount_t
+        <set>
+            <if test="startTime != null">
+                start_time= #{startTime},
+            </if>
+            <if test="endTime != null">
+                end_time= #{endTime},
+            </if>
+            <if test="discount != null">
+                discount= #{discount},
+            </if>
+            <if test="type != null">
+                type= #{type},
+            </if>
+            <if test="creationDate != null">
+                creation_date= #{creationDate},
+            </if>
+            <if test="createdBy != null">
+                created_by= #{createdBy},
+            </if>
+            <if test="lastUpdateDate != null">
+                last_update_date= #{lastUpdateDate},
+            </if>
+            <if test="lastUpdatedBy != null">
+                last_updated_by= #{lastUpdatedBy},
+            </if>
+        </set>
+        where type = 0
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete
+        from crec_dmp_db.tpl_discount_t
+        where id = #{id}
+    </delete>
+
+</mapper>

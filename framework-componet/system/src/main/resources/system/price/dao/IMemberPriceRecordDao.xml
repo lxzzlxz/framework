@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liuzemin.server.framework.system.price.dao.IMemberPriceRecordDao">
+
+
+    <!--查询单个-->
+    <select id="queryById" resultType="com.liuzemin.server.framework.system.price.model.MemberPriceRecord">
+        select *
+        from tpl_member_price_record_t
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultType="com.liuzemin.server.framework.system.price.model.MemberPriceRecord">
+        select *
+        from tpl_member_price_record_t
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultType="com.liuzemin.server.framework.system.price.model.MemberPriceRecord">
+        select
+        *
+        from tpl_member_price_record_t
+        <where>
+            <if test="id != null">
+                and id= #{id}
+            </if>
+            <if test="code != null and code != ''">
+                and code= #{code}
+            </if>
+            <if test="oneYearPrice != null">
+                and one_year_price= #{oneYearPrice}
+            </if>
+            <if test="twoYearPrice != null">
+                and two_year_price= #{twoYearPrice}
+            </if>
+            <if test="type != null">
+                and type= #{type}
+            </if>
+            <if test="creationDate != null">
+                and creation_date= #{creationDate}
+            </if>
+            <if test="createdBy != null">
+                and created_by= #{createdBy}
+            </if>
+            <if test="lastUpdateDate != null">
+                and last_update_date= #{lastUpdateDate}
+            </if>
+            <if test="lastUpdatedBy != null">
+                and last_updated_by= #{lastUpdatedBy}
+            </if>
+        </where>
+    </select>
+    <select id="findPageList" resultType="com.liuzemin.server.framework.system.price.model.MemberPriceRecord">
+        select *
+        from tpl_member_price_record_t
+        order by id
+        limit #{page.startIndex}, #{page.pageSize}
+    </select>
+    <select id="findPageListCount" resultType="long">
+        select count(*)
+        from tpl_member_price_record_t
+
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into tpl_member_price_record_t(code, one_year_price, two_year_price, type, creation_date,
+                                              created_by, last_update_date, last_updated_by)
+        values (#{code}, #{oneYearPrice}, #{twoYearPrice}, #{type}, #{creationDate}, #{createdBy}, #{lastUpdateDate},
+                #{lastUpdatedBy})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update tpl_member_price_record_t
+        <set>
+            <if test="code != null and code != ''">
+                code= #{code},
+            </if>
+            <if test="oneYearPrice != null">
+                one_year_price= #{oneYearPrice},
+            </if>
+            <if test="twoYearPrice != null">
+                two_year_price= #{twoYearPrice},
+            </if>
+            <if test="type != null">
+                type= #{type},
+            </if>
+            <if test="creationDate != null">
+                creation_date= #{creationDate},
+            </if>
+            <if test="createdBy != null">
+                created_by= #{createdBy},
+            </if>
+            <if test="lastUpdateDate != null">
+                last_update_date= #{lastUpdateDate},
+            </if>
+            <if test="lastUpdatedBy != null">
+                last_updated_by= #{lastUpdatedBy},
+            </if>
+        </set>
+        where id= #{id}
+    </update>
+    <insert id="batchInsert" keyProperty="id" useGeneratedKeys="true" parameterType="java.util.List">
+        INSERT into tpl_member_price_record_t(code, one_year_price, two_year_price, type, creation_date,
+        created_by, last_update_date, last_updated_by)
+        values
+        <foreach collection="list" item="item" separator="," index="index">
+            (#{item.code}, #{item.oneYearPrice}, #{item.twoYearPrice}, #{item.type}, #{item.creationDate},
+            #{item.createdBy}, #{item.lastUpdateDate},
+            #{item.lastUpdatedBy})
+        </foreach>
+    </insert>
+
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete
+        from tpl_member_price_record_t
+        where id = #{id}
+    </delete>
+
+</mapper>

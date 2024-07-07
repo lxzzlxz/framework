@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liuzemin.server.framework.system.price.dao.IMemberPriceOperationDao">
+  <resultMap id="BaseResultMap" type="com.liuzemin.server.framework.system.price.model.MemberPriceOperation">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="code_name" jdbcType="VARCHAR" property="codeName" />
+    <result column="type" jdbcType="INTEGER" property="type" />
+    <result column="one_before_operation" jdbcType="DECIMAL" property="oneBeforeOperation" />
+    <result column="one_after_operation" jdbcType="DECIMAL" property="oneAfterOperation" />
+    <result column="two_before_operation" jdbcType="DECIMAL" property="twoBeforeOperation" />
+    <result column="two_after_operation" jdbcType="DECIMAL" property="twoAfterOperation" />
+    <result column="creation_date" jdbcType="TIMESTAMP" property="creationDate" />
+    <result column="created_by" jdbcType="BIGINT" property="createdBy" />
+    <result column="last_update_date" jdbcType="TIMESTAMP" property="lastUpdateDate" />
+    <result column="last_updated_by" jdbcType="BIGINT" property="lastUpdatedBy" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, code, code_name,`type`, one_before_operation, one_after_operation, two_before_operation,
+    two_after_operation, creation_date, created_by, last_update_date, last_updated_by
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tpl_member_price_operation_t
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+
+
+  <sql id="condition">
+    <if test="record.code != null">
+       and code = #{record.code,jdbcType=VARCHAR}
+    </if>
+    <if test="record.codeName != null">
+      and code_name = #{record.codeName,jdbcType=VARCHAR}
+    </if>
+    <if test="record.type != null">
+      and type = #{record.type,jdbcType=INTEGER}
+    </if>
+    <if test="record.oneBeforeOperation != null">
+      and one_before_operation = #{record.oneBeforeOperation,jdbcType=DECIMAL}
+    </if>
+    <if test="record.oneAfterOperation != null">
+      and one_after_operation = #{record.oneAfterOperation,jdbcType=DECIMAL}
+    </if>
+    <if test="record.twoBeforeOperation != null">
+      and two_before_operation = #{record.twoBeforeOperation,jdbcType=DECIMAL},
+    </if>
+    <if test="record.twoAfterOperation != null">
+      and two_after_operation = #{record.twoAfterOperation,jdbcType=DECIMAL}
+    </if>
+    <if test="record.creationDate != null">
+      and creation_date = #{record.creationDate,jdbcType=TIMESTAMP}
+    </if>
+    <if test="record.createdBy != null">
+      and created_by = #{record.createdBy,jdbcType=BIGINT}
+    </if>
+    <if test="record.lastUpdateDate != null">
+      and last_update_date = #{record.lastUpdateDate,jdbcType=TIMESTAMP}
+    </if>
+    <if test="record.lastUpdatedBy != null">
+      and last_updated_by = #{record.lastUpdatedBy,jdbcType=BIGINT}
+    </if>
+  </sql>
+  <select id="findPagedList"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tpl_member_price_operation_t
+    <where>
+      <include refid="condition"></include>
+    </where>
+    and  (one_before_operation != one_after_operation or two_before_operation != two_after_operation)
+    order by id desc
+    limit #{page.startIndex}, #{page.pageSize}
+  </select>
+
+  <select id="findPagedListCount"  resultType="long">
+    select
+    count(*)
+    from tpl_member_price_operation_t
+    <where>
+      <include refid="condition"></include>
+    </where>
+    and  (one_before_operation != one_after_operation or two_before_operation != two_after_operation)
+
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from tpl_member_price_operation_t
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.liuzemin.server.framework.system.price.model.MemberPriceOperation" useGeneratedKeys="true">
+    insert into tpl_member_price_operation_t (code,code_name, `type`, one_before_operation,
+      one_after_operation, two_before_operation, 
+      two_after_operation, creation_date, created_by, 
+      last_update_date, last_updated_by)
+    values (#{code,jdbcType=VARCHAR},#{code_name,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{oneBeforeOperation,jdbcType=DECIMAL},
+      #{oneAfterOperation,jdbcType=DECIMAL}, #{twoBeforeOperation,jdbcType=DECIMAL}, 
+      #{twoAfterOperation,jdbcType=DECIMAL}, #{creationDate,jdbcType=TIMESTAMP}, #{createdBy,jdbcType=BIGINT}, 
+      #{lastUpdateDate,jdbcType=TIMESTAMP}, #{lastUpdatedBy,jdbcType=BIGINT})
+  </insert>
+
+  <insert id="batchInsert" keyColumn="id" keyProperty="id" parameterType="com.liuzemin.server.framework.system.price.model.MemberPriceOperation" useGeneratedKeys="true">
+    insert into tpl_member_price_operation_t (code,code_name, `type`, one_before_operation,
+      one_after_operation, two_before_operation,
+      two_after_operation, creation_date, created_by,
+      last_update_date, last_updated_by)
+    values
+    <foreach collection="list" item="item" separator="," index="index">
+    (#{item.code,jdbcType=VARCHAR},#{item.codeName,jdbcType=VARCHAR}, #{item.type,jdbcType=INTEGER}, #{item.oneBeforeOperation,jdbcType=DECIMAL},
+      #{item.oneAfterOperation,jdbcType=DECIMAL}, #{item.twoBeforeOperation,jdbcType=DECIMAL},
+      #{item.twoAfterOperation,jdbcType=DECIMAL}, #{item.creationDate,jdbcType=TIMESTAMP}, #{item.createdBy,jdbcType=BIGINT},
+      #{item.lastUpdateDate,jdbcType=TIMESTAMP}, #{item.lastUpdatedBy,jdbcType=BIGINT})
+      </foreach>
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.liuzemin.server.framework.system.price.model.MemberPriceOperation" useGeneratedKeys="true">
+    insert into tpl_member_price_operation_t
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="code != null">
+        code,
+      </if>
+      <if test="codeName != null">
+        code_name,
+      </if>
+      <if test="type != null">
+        `type`,
+      </if>
+      <if test="oneBeforeOperation != null">
+        one_before_operation,
+      </if>
+      <if test="oneAfterOperation != null">
+        one_after_operation,
+      </if>
+      <if test="twoBeforeOperation != null">
+        two_before_operation,
+      </if>
+      <if test="twoAfterOperation != null">
+        two_after_operation,
+      </if>
+      <if test="creationDate != null">
+        creation_date,
+      </if>
+      <if test="createdBy != null">
+        created_by,
+      </if>
+      <if test="lastUpdateDate != null">
+        last_update_date,
+      </if>
+      <if test="lastUpdatedBy != null">
+        last_updated_by,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="codeName != null">
+        #{codeName,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="oneBeforeOperation != null">
+        #{oneBeforeOperation,jdbcType=DECIMAL},
+      </if>
+      <if test="oneAfterOperation != null">
+        #{oneAfterOperation,jdbcType=DECIMAL},
+      </if>
+      <if test="twoBeforeOperation != null">
+        #{twoBeforeOperation,jdbcType=DECIMAL},
+      </if>
+      <if test="twoAfterOperation != null">
+        #{twoAfterOperation,jdbcType=DECIMAL},
+      </if>
+      <if test="creationDate != null">
+        #{creationDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdBy != null">
+        #{createdBy,jdbcType=BIGINT},
+      </if>
+      <if test="lastUpdateDate != null">
+        #{lastUpdateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdatedBy != null">
+        #{lastUpdatedBy,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.liuzemin.server.framework.system.price.model.MemberPriceOperation">
+    update tpl_member_price_operation_t
+    <set>
+      <if test="code != null">
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="codeName != null">
+        code_name = #{codeName,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        `type` = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="oneBeforeOperation != null">
+        one_before_operation = #{oneBeforeOperation,jdbcType=DECIMAL},
+      </if>
+      <if test="oneAfterOperation != null">
+        one_after_operation = #{oneAfterOperation,jdbcType=DECIMAL},
+      </if>
+      <if test="twoBeforeOperation != null">
+        two_before_operation = #{twoBeforeOperation,jdbcType=DECIMAL},
+      </if>
+      <if test="twoAfterOperation != null">
+        two_after_operation = #{twoAfterOperation,jdbcType=DECIMAL},
+      </if>
+      <if test="creationDate != null">
+        creation_date = #{creationDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdBy != null">
+        created_by = #{createdBy,jdbcType=BIGINT},
+      </if>
+      <if test="lastUpdateDate != null">
+        last_update_date = #{lastUpdateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdatedBy != null">
+        last_updated_by = #{lastUpdatedBy,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.liuzemin.server.framework.system.price.model.MemberPriceOperation">
+    update tpl_member_price_operation_t
+    set code = #{code,jdbcType=VARCHAR},
+      code_name = #{codeName,jdbcType=VARCHAR},
+      `type` = #{type,jdbcType=INTEGER},
+      one_before_operation = #{oneBeforeOperation,jdbcType=DECIMAL},
+      one_after_operation = #{oneAfterOperation,jdbcType=DECIMAL},
+      two_before_operation = #{twoBeforeOperation,jdbcType=DECIMAL},
+      two_after_operation = #{twoAfterOperation,jdbcType=DECIMAL},
+      creation_date = #{creationDate,jdbcType=TIMESTAMP},
+      created_by = #{createdBy,jdbcType=BIGINT},
+      last_update_date = #{lastUpdateDate,jdbcType=TIMESTAMP},
+      last_updated_by = #{lastUpdatedBy,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

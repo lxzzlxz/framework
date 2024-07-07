@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liuzemin.server.framework.system.enterprise.dao.SubsidiaryDao">
+
+    <resultMap type="com.liuzemin.server.framework.model.model.Subsidiary" id="TplSubsidiaryTMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+        <result property="subsidiaryName" column="subsidiary_name" jdbcType="VARCHAR"/>
+        <result property="administratorName" column="administrator_name" jdbcType="VARCHAR"/>
+        <result property="telephone" column="telephone" jdbcType="VARCHAR"/>
+        <result property="creationDate" column="creation_date" jdbcType="TIMESTAMP"/>
+        <result property="createdBy" column="created_by" jdbcType="INTEGER"/>
+        <result property="lastUpdateDate" column="last_update_date" jdbcType="TIMESTAMP"/>
+        <result property="lastUpdatedBy" column="last_updated_by" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultType="com.liuzemin.server.framework.model.model.Subsidiary">
+        select id,
+               user_id,
+               subsidiary_name,
+               administrator_name,
+               telephone,
+               creation_date,
+               created_by,
+               last_update_date,
+               last_updated_by
+        from tpl_subsidiary_t
+        where user_id = #{userId}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultType="com.liuzemin.server.framework.model.model.Subsidiary">
+        select
+        id, user_id, subsidiary_name, administrator_name, telephone, creation_date, created_by, last_update_date,
+        last_updated_by
+        from tpl_subsidiary_t
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+            <if test="subsidiaryName != null and subsidiaryName != ''">
+                and subsidiary_name = #{subsidiaryName}
+            </if>
+            <if test="administratorName != null and administratorName != ''">
+                and administrator_name = #{administratorName}
+            </if>
+            <if test="telephone != null and telephone != ''">
+                and telephone = #{telephone}
+            </if>
+            <if test="creationDate != null">
+                and creation_date = #{creationDate}
+            </if>
+            <if test="createdBy != null">
+                and created_by = #{createdBy}
+            </if>
+            <if test="lastUpdateDate != null">
+                and last_update_date = #{lastUpdateDate}
+            </if>
+            <if test="lastUpdatedBy != null">
+                and last_updated_by = #{lastUpdatedBy}
+            </if>
+        </where>
+        limit #{page.startIndex}, #{page.pageSize}
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from tpl_subsidiary_t
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+            <if test="subsidiaryName != null and subsidiaryName != ''">
+                and subsidiary_name = #{subsidiaryName}
+            </if>
+            <if test="administratorName != null and administratorName != ''">
+                and administrator_name = #{administratorName}
+            </if>
+            <if test="telephone != null and telephone != ''">
+                and telephone = #{telephone}
+            </if>
+            <if test="creationDate != null">
+                and creation_date = #{creationDate}
+            </if>
+            <if test="createdBy != null">
+                and created_by = #{createdBy}
+            </if>
+            <if test="lastUpdateDate != null">
+                and last_update_date = #{lastUpdateDate}
+            </if>
+            <if test="lastUpdatedBy != null">
+                and last_updated_by = #{lastUpdatedBy}
+            </if>
+        </where>
+    </select>
+
+    <select id="queryByList" resultType="com.liuzemin.server.framework.model.model.Subsidiary">
+        SELECT * FROM tpl_subsidiary_t
+        WHERE
+        user_id IN
+        <foreach collection="list" index="index" separator="," open="(" close=")">
+            #{list[${index}]}
+        </foreach>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id"
+            parameterType="com.liuzemin.server.framework.model.model.Subsidiary" useGeneratedKeys="true">
+        insert into tpl_subsidiary_t(user_id, subsidiary_name, administrator_name, telephone, creation_date, created_by,
+                                     last_update_date, last_updated_by)
+        values (#{userId}, #{subsidiaryName}, #{administratorName}, #{telephone}, #{creationDate}, #{createdBy},
+                #{lastUpdateDate}, #{lastUpdatedBy})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id"
+            parameterType="com.liuzemin.server.framework.model.model.Subsidiary" useGeneratedKeys="true">
+        insert into tpl_subsidiary_t(user_id, subsidiary_name, administrator_name, telephone, creation_date, created_by,
+        last_update_date, last_updated_by)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.userId}, #{entity.subsidiaryName}, #{entity.administratorName},
+            #{entity.telephone}, #{entity.creationDate}, #{entity.createdBy},
+            #{entity.lastUpdateDate}, #{entity.lastUpdatedBy})
+        </foreach>
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update tpl_subsidiary_t
+        <set>
+            <if test="userId != null">
+                user_id = #{userId},
+            </if>
+            <if test="subsidiaryName != null and subsidiaryName != ''">
+                subsidiary_name = #{subsidiaryName},
+            </if>
+            <if test="administratorName != null and administratorName != ''">
+                administrator_name = #{administratorName},
+            </if>
+            <if test="telephone != null and telephone != ''">
+                telephone = #{telephone},
+            </if>
+            <if test="creationDate != null">
+                creation_date = #{creationDate},
+            </if>
+            <if test="createdBy != null">
+                created_by = #{createdBy},
+            </if>
+            <if test="lastUpdateDate != null">
+                last_update_date = #{lastUpdateDate},
+            </if>
+            <if test="lastUpdatedBy != null">
+                last_updated_by = #{lastUpdatedBy},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete
+        from tpl_subsidiary_t
+        where user_id = #{userId}
+    </delete>
+
+</mapper>
+

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liuzemin.server.framework.system.jpush.dao.IJPushDeviceDao">
+
+    <!--查询单个-->
+    <select id="queryById" resultType="com.liuzemin.server.framework.model.model.JPushDevice">
+        select
+          *
+        from tpl_jpush_device_t
+        where id = #{id}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryList" resultType="com.liuzemin.server.framework.model.model.JPushDevice">
+        select
+        *
+        from tpl_jpush_device_t
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="registrationId != null and registrationId != ''">
+                and registration_id = #{registrationId}
+            </if>
+            <if test="alias != null and alias != ''">
+                and alias = #{alias}
+            </if>
+            <if test="aliasList != null and aliasList.size >0 ">
+                and alias in
+                <foreach collection="aliasList" index="index" open="(" close=")" separator=",">
+                    #{aliasList[${index}]}
+                </foreach>
+            </if>
+            <if test="userIds != null and userIds.size >0 ">
+                and user_id in
+                <foreach collection="userIds" index="index" open="(" close=")" separator=",">
+                    #{userIds[${index}]}
+                </foreach>
+            </if>
+
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+
+        </where>
+    </select>
+
+    <select id="queryByUserId" resultType="com.liuzemin.server.framework.model.model.JPushDevice">
+        select * from tpl_jpush_device_t where user_id = #{userId}
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert">
+        insert into
+        tpl_jpush_device_t(
+        user_id,
+        registration_id,
+        alias,
+        creation_date,
+        created_by,
+        last_update_date,
+        last_updated_by
+        )
+        values (
+        #{userId},
+        #{registrationId},
+        #{alias},
+        #{creationDate},
+        #{createdBy},
+        #{lastUpdateDate},
+        #{lastUpdatedBy}
+        )
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update tpl_jpush_device_t
+        <set>
+            <if test="registrationId != null and registrationId != ''">
+                registration_id = #{registrationId},
+            </if>
+            <if test="userId != null and userId != ''">
+                user_id = #{userId},
+            </if>
+
+            <if test="alias != null and alias != ''">
+                alias = #{alias},
+            </if>
+
+            <if test="creationDate != null">`creation_date` = #{creationDate},</if>
+            <if test="createdBy != null">`created_by` = #{createdBy},</if>
+            <if test="lastUpdateDate != null">`last_update_date` = #{lastUpdateDate},</if>
+            <if test="lastUpdatedBy != null">`last_updated_by` = #{lastUpdatedBy}</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <update id="updateByUserId">
+        update tpl_jpush_device_t
+        <set>
+            <if test="alias != null and alias != ''">
+                alias = #{alias},
+            </if>
+            <if test="registrationId != null and registrationId != ''">
+                registration_id = #{registrationId},
+            </if>
+            <if test="lastUpdateDate != null">`last_update_date` = #{lastUpdateDate},</if>
+            <if test="lastUpdatedBy != null">`last_updated_by` = #{lastUpdatedBy}</if>
+        </set>
+        where user_id = #{userId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from tpl_jpush_device_t where id = #{id}
+    </delete>
+    <delete id="deleteByAliasOrRegId">
+         delete from tpl_jpush_device_t where registration_id=#{registrationId} or alias = #{alias}
+    </delete>
+
+</mapper>

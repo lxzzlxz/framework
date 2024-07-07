@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liuzemin.server.framework.system.lookup.dao.ILookupItemDao">
+
+    <sql id="find_columns">
+		id as id, parent_code as parentCode, code as code, `value` as `value`, attr1 as atrr1, attr2 as attr2, attr3 as attr3, sort as sort,
+		creation_date as creationDate, created_by as createdBy, last_update_date as lastUpdateDate, last_updated_by as lastUpdatedBy
+	</sql>
+
+    <sql id="condition">
+        <if test='id != null'>
+            and id = #{id, jdbcType=BIGINT}
+        </if>
+        <if test='parentCode != null and parentCode != ""'>
+            and parent_code = #{parentCode, jdbcType=VARCHAR}
+        </if>
+        <if test='code != null and code != ""'>
+            and code = #{code, jdbcType=VARCHAR}
+        </if>
+    </sql>
+
+    <sql id="page_condition">
+        <if test='arg0.id != null'>
+            and id = #{arg0.id, jdbcType=BIGINT}
+        </if>
+        <if test='arg0.parentCode != null and arg0.parentCode != ""'>
+            and parent_code = #{arg0.parentCode, jdbcType=VARCHAR}
+        </if>
+        <if test='arg0.code != null and arg0.code != ""'>
+            and code = #{arg0.code, jdbcType=VARCHAR}
+        </if>
+    </sql>
+
+    <select id="findPagedList" resultType="com.liuzemin.server.framework.system.lookup.model.LookupItem">
+        select <include refid="find_columns"></include>
+        from tpl_lookup_item_t
+        <where>
+            <include refid="page_condition"></include>
+        </where>
+        limit #{arg1.startIndex, jdbcType=INTEGER}, #{arg1.pageSize, jdbcType=INTEGER}
+    </select>
+
+    <select id="findPagedListCount" resultType="java.lang.Long">
+        select count(1)
+        from tpl_lookup_item_t
+        <where>
+            <include refid="page_condition"></include>
+        </where>
+    </select>
+
+    <select id="findList" parameterType="com.liuzemin.server.framework.system.lookup.model.LookupItem" resultType="com.liuzemin.server.framework.system.lookup.model.LookupItem">
+        select <include refid="find_columns"></include>
+        from tpl_lookup_item_t
+        <where>
+            <include refid="condition"></include>
+        </where>
+    </select>
+
+    <insert id="insertList">
+        insert into tpl_program_item_t
+        (parent_code, code, `value`,attr1, attr2, attr3, sort, creation_date, created_by, last_update_date, last_updated_by)
+        values
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.parentCode, jdbcType=VARCHAR},
+            #{item.code, jdbcType=VARCHAR},
+            #{item.value, jdbcType=VARCHAR},
+            #{item.attr1, jdbcType=VARCHAR},
+            #{item.attr2, jdbcType=VARCHAR},
+            #{item.attr3, jdbcType=VARCHAR},
+            #{item.sort, jdbcType=INTEGER},
+            #{item.creationDate, jdbcType=TIMESTAMP},
+            #{item.createdBy, jdbcType=BIGINT},
+            #{item.lastUpdateDate, jdbcType=TIMESTAMP},
+            #{item.lastUpdatedBy, jdbcType=BIGINT}
+            )
+        </foreach>
+    </insert>
+
+    <update id="deleteList">
+        delete from tpl_program_item_t
+        where id in
+        <foreach collection="list" item="item" separator="," open="(" close=")" index="index">
+            #{list[${index}], jdbcType=BIGINT}
+        </foreach>
+    </update>
+</mapper>

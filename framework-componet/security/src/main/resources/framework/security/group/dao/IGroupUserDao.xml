@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liuzemin.server.framework.security.group.dao.IGroupUserDao">
+
+    <sql id="find_columns">
+		id as id, group_id as groupId, user_id as userId, creation_date as creationDate,
+		created_by as createdBy, last_update_date as lastUpdateDate, last_updated_by as lastUpdatedBy
+	</sql>
+
+    <sql id="condition">
+        <if test='id != null'>
+            and id = #{id, jdbcType=BIGINT}
+        </if>
+        <if test='groupId != null'>
+            and group_id = #{groupId, jdbcType=BIGINT}
+        </if>
+        <if test='userId != null and userId != ""'>
+            and user_id = #{userId, jdbcType=VARCHAR}
+        </if>
+    </sql>
+
+    <sql id="page_condition">
+        <if test='arg0.id != null'>
+            and id = #{arg0.id, jdbcType=BIGINT}
+        </if>
+        <if test='arg0.groupId != null'>
+            and group_id = #{arg0.groupId, jdbcType=BIGINT}
+        </if>
+        <if test='arg0.userId != null and arg0.userId != ""'>
+            and user_id = #{arg0.userId, jdbcType=VARCHAR}
+        </if>
+    </sql>
+
+    <select id="findPagedList" resultType="com.liuzemin.server.framework.security.group.model.GroupUser">
+        select t1.*, t2.username as username from (
+        select <include refid="find_columns"></include>
+         from tpl_group_user_t
+        <where>
+            <include refid="page_condition"></include>
+        </where>
+        limit #{arg1.startIndex, jdbcType=INTEGER}, #{arg1.pageSize, jdbcType=INTEGER}
+        order by creation_date desc
+        ) t1 left join tpl_user_t t2 on t1.userId = t2.id
+    </select>
+
+    <select id="findPagedListCount" resultType="java.lang.Long">
+        select count(1)
+        from tpl_group_user_t
+        <where>
+            <include refid="page_condition"></include>
+        </where>
+    </select>
+
+    <select id="findList" parameterType="com.liuzemin.server.framework.security.group.model.GroupUser" resultType="com.liuzemin.server.framework.security.group.model.GroupUser">
+        select t1.*, t2.username as username from (
+        select <include refid="find_columns"></include>
+        from tpl_group_user_t
+        <where>
+            <include refid="condition"></include>
+        </where>
+        order by creation_date desc
+        ) t1 left join tpl_user_t t2 on t1.userId = t2.id
+    </select>
+
+    <insert id="insertList">
+        insert into tpl_group_user_t
+        (group_id, user_id, creation_date, created_by, last_update_date, last_updated_by)
+        values
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.groupId, jdbcType=BIGINT},
+            #{item.userId, jdbcType=BIGINT},
+            #{item.creationDate, jdbcType=TIMESTAMP},
+            #{item.createdBy, jdbcType=BIGINT},
+            #{item.lastUpdateDate, jdbcType=TIMESTAMP},
+            #{item.lastUpdatedBy, jdbcType=BIGINT}
+            )
+        </foreach>
+    </insert>
+
+    <update id="deleteList">
+        delete from tpl_group_user_t
+        where id in
+        <foreach collection="list" item="item" separator="," open="(" close=")" index="index">
+            #{list[${index}], jdbcType=BIGINT}
+        </foreach>
+    </update>
+</mapper>

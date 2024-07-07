@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liuzemin.server.framework.system.evaluate.dao.IEvaluateDao">
+
+    <select id="findPagedList" resultType="com.liuzemin.server.framework.system.evaluate.vo.EvaluateVO">
+        SELECT
+        *
+        FROM
+        tpl_evaluate_t
+        WHERE delete_flag = 1
+        <if test='evaluate.phone != null and evaluate.phone !=""'>
+            AND phone LIKE concat('%',#{evaluate.phone},'%')
+        </if>
+        <if test='evaluate.score != null and evaluate.score !=""'>
+            AND score =#{evaluate.score}
+        </if>
+        <if test='evaluate.startDate != null and evaluate.startDate != ""  and evaluate.endDate != null and evaluate.endDate != ""'>
+            AND creation_date BETWEEN #{evaluate.startDate} AND #{evaluate.endDate}
+        </if>
+        <if test='evaluate.isRevert != null and evaluate.isRevert !=""'>
+            AND is_revert = #{evaluate.isRevert}
+        </if>
+        <if test='evaluate.createdBy != null and evaluate.createdBy !=""'>
+            AND created_by = #{evaluate.createdBy}
+        </if>
+        ORDER BY creation_date DESC
+        limit #{page.startIndex}, #{page.pageSize}
+    </select>
+    <select id="findPagedListCount" resultType="long">
+        select count(*) from tpl_evaluate_t
+        WHERE delete_flag = 1
+        <if test='evaluate.phone != null and evaluate.phone !=""'>
+            AND phone LIKE concat('%',#{evaluate.phone},'%')
+        </if>
+        <if test='evaluate.score != null and evaluate.score !=""'>
+            AND score =#{evaluate.score}
+        </if>
+        <if test='evaluate.startDate != null and evaluate.startDate != ""  and evaluate.endDate != null and evaluate.endDate != ""'>
+            AND creation_date BETWEEN #{evaluate.startDate} AND #{evaluate.endDate}
+        </if>
+        <if test='evaluate.isRevert != null and evaluate.isRevert !=""'>
+            AND is_revert = #{evaluate.isRevert}
+        </if>
+        <if test='evaluate.createdBy != null and evaluate.createdBy !=""'>
+            AND created_by = #{evaluate.createdBy}
+        </if>
+
+    </select>
+
+    <select id="get" resultType="com.liuzemin.server.framework.system.evaluate.model.Evaluate">
+        SELECT *
+        FROM tpl_evaluate_t
+        WHERE delete_flag = 1
+          AND id = #{id};
+    </select>
+    <insert id="save" parameterType="com.liuzemin.server.framework.system.evaluate.model.Evaluate">
+        insert into tpl_evaluate_t
+        (phone,
+         score,
+         content,
+         is_revert,
+         creation_date,
+         created_by,
+         last_update_date,
+         last_updated_by)
+        values (#{phone},
+                #{score},
+                #{content},
+                #{isRevert},
+                #{creationDate},
+                #{createdBy},
+                #{lastUpdateDate},
+                #{lastUpdatedBy})
+    </insert>
+    <select id="getCountByPhone" resultType="int">
+        select count(*)
+        from tpl_evaluate_t
+        where delete_flag = 1
+          and phone = #{phone}
+    </select>
+    <update id="deleteByLogic">
+        update tpl_evaluate_t
+        set delete_flag     =2,
+            last_update_date=#{lastUpdateDate},
+            last_updated_by=#{lastUpdatedBy}
+        where id = #{id}
+    </update>
+
+
+    <select id="getInfo" resultType="com.liuzemin.server.framework.system.evaluate.model.Evaluate">
+        select * from tpl_evaluate_t
+        <where>
+            <if test='id != null '>
+                AND id = #{id}
+            </if>
+            <if test='createdBy != null '>
+                AND created_by = #{createdBy}
+            </if>
+        </where>
+    </select>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update tpl_evaluate_t
+        <set>
+            <if test="isRevert != null">
+                is_revert = #{isRevert},
+            </if>
+            <if test="revertContent != null and revertContent != ''">
+                revert_content = #{revertContent},
+            </if>
+            <if test="createdBy != null">
+                created_by = #{createdBy},
+            </if>
+            <if test="revertBy != null">
+                revert_by = #{revertBy},
+            </if>
+            <if test="revertDate != null">
+                revert_date = #{revertDate}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+</mapper>

@@ -1,0 +1,546 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liuzemin.server.framework.system.enterprise.dao.EnterpriseDao">
+
+    <sql id="page_condition">
+        <if test="enterprise.name != null and enterprise.name != ''">
+            and name like concat('%',#{enterprise.name},'%')
+        </if>
+        <if test="enterprise.ids != null">
+            and id in
+            <foreach collection="enterprise.ids" index="index" open="(" close=")" separator=",">
+                #{enterprise.ids[${index}]}
+            </foreach>
+        </if>
+        <if test="enterprise.businessLicense != null and enterprise.businessLicense != ''">
+            and business_license = #{enterprise.businessLicense}
+        </if>
+        <if test="enterprise.applicationInformation != null and enterprise.applicationInformation != ''">
+            and application_information = #{enterprise.applicationInformation}
+        </if>
+        <if test="enterprise.legalPersonName != null and enterprise.legalPersonName != ''">
+            and legal_person_name = #{enterprise.legalPersonName}
+        </if>
+        <if test="enterprise.legalPersonIdCardNo != null and enterprise.legalPersonIdCardNo != ''">
+            and legal_person_id_card_no = #{enterprise.legalPersonIdCardNo}
+        </if>
+        <if test="enterprise.frontOfCorporateIdCard != null and enterprise.frontOfCorporateIdCard != ''">
+            and front_of_corporate_id_card = #{enterprise.frontOfCorporateIdCard}
+        </if>
+        <if test="enterprise.backOfCorporateIdCard != null and enterprise.backOfCorporateIdCard != ''">
+            and back_of_corporate_id_card = #{enterprise.backOfCorporateIdCard}
+        </if>
+        <if test="enterprise.certificateOfAuthorization != null and enterprise.certificateOfAuthorization != ''">
+            and certificate_of_authorization = #{enterprise.certificateOfAuthorization}
+        </if>
+        <if test="enterprise.recommendedUnit != null">
+            and recommended_unit = #{enterprise.recommendedUnit}
+        </if>
+        <if test="enterprise.enterpriseCategory != null">
+            and enterprise_category = #{enterprise.enterpriseCategory}
+        </if>
+        <if test="enterprise.enterpriseType != null">
+            and enterprise_type = #{enterprise.enterpriseType}
+        </if>
+        <if test="enterprise.userId != null">
+            and user_id = #{enterprise.userId}
+        </if>
+        <if test="enterprise.uniformSocialCreditCode != null">
+            and uniform_social_credit_code = #{enterprise.uniformSocialCreditCode}
+        </if>
+        <if test="enterprise.registeredCapital != null">
+            and registered_capital = #{enterprise.registeredCapital}
+        </if>
+        <if test="enterprise.approvalUserId != null">
+            and approval_user_id = #{enterprise.approvalUserId}
+        </if>
+        <if test="enterprise.approvalStatus != null">
+            and approval_status = #{enterprise.approvalStatus}
+        </if>
+        <if test="enterprise.approvalDate != null">
+            and approval_date = #{enterprise.approvalDate}
+        </if>
+        <if test="enterprise.dateOfEstablishment != null">
+            and date_of_establishment = #{enterprise.dateOfEstablishment}
+        </if>
+        <if test="enterprise.humanResourcesLicense != null">
+            and human_resources_license = #{enterprise.humanResourcesLicense},
+        </if>
+        <if test="enterprise.placeOfBusiness != null ">
+            and place_of_business = #{enterprise.placeOfBusiness},
+        </if>
+        <if test="enterprise.responsibleApprovalStatus != null">
+            and responsible_approval_status = #{enterprise.responsibleApprovalStatus}
+        </if>
+        <if test="enterprise.responsibleApprovalDate != null">
+            and responsible_approval_date = #{enterprise.responsibleApprovalDate}
+        </if>
+        <if test="enterprise.secretaryApprovalStatus != null">
+            and secretary_approval_status = #{enterprise.secretaryApprovalStatus}
+        </if>
+        <if test="enterprise.secretaryApprovalDate != null">
+            and secretary_approval_date = #{enterprise.secretaryApprovalDate}
+        </if>
+        <if test="enterprise.deleteFlag != null">
+            and delete_flag = #{enterprise.deleteFlag}
+        </if>
+        <if test="enterprise.scoreDevStart != null">
+            and score_dev <![CDATA[ >= ]]> #{enterprise.scoreDevStart, jdbcType=FLOAT}
+        </if>
+        <if test="enterprise.scoreDevEnd != null">
+            and score_dev <![CDATA[ < ]]> #{enterprise.scoreDevEnd, jdbcType=FLOAT}
+        </if>
+        <if test="enterprise.startDate != null and enterprise.endDate != null">
+            and DATE_FORMAT(creation_date, ${enterprise.dateFormatStr}) between #{enterprise.startDate} and
+            #{enterprise.endDate}
+        </if>
+    </sql>
+
+
+    <sql id="condition">
+        <if test="id!=null">
+            and id = #{id}
+        </if>
+        <if test="name != null and name != ''">
+            and instr(name, #{name})>0
+        </if>
+        <if test="businessLicense != null and businessLicense != ''">
+            and business_license = #{businessLicense}
+        </if>
+        <if test="applicationInformation != null and applicationInformation != ''">
+            and application_information = #{applicationInformation}
+        </if>
+        <if test="legalPersonIdCardNo != null and legalPersonIdCardNo != ''">
+            legal_person_id_card_no = #{legalPersonIdCardNo},
+        </if>
+        <if test="ids != null">
+            and id in
+            <foreach collection="ids" index="index" open="(" close=")" separator=",">
+                #{ids[${index}]}
+            </foreach>
+        </if>
+        <if test="userIds != null and userIds.size>0">
+            and user_id in
+            <foreach collection="userIds" index="index" open="(" close=")" separator=",">
+                #{userIds[${index}]}
+            </foreach>
+        </if>
+        <if test="legalPersonName != null and legalPersonName != ''">
+            and legal_person_name = #{legalPersonName}
+        </if>
+        <if test="frontOfCorporateIdCard != null and frontOfCorporateIdCard != ''">
+            and front_of_corporate_id_card = #{frontOfCorporateIdCard}
+        </if>
+        <if test="backOfCorporateIdCard != null and backOfCorporateIdCard != ''">
+            and back_of_corporate_id_card = #{backOfCorporateIdCard}
+        </if>
+        <if test="certificateOfAuthorization != null and certificateOfAuthorization != ''">
+            and certificate_of_authorization = #{certificateOfAuthorization}
+        </if>
+        <if test="recommendedUnit != null">
+            and recommended_unit = #{recommendedUnit}
+        </if>
+        <if test="recommendedUnits != null and recommendedUnits.size>0">
+            and recommended_unit in
+            <foreach collection="recommendedUnits" index="index" open="(" close=")" separator=",">
+                #{recommendedUnits[${index}]}
+            </foreach>
+        </if>
+        <if test="enterpriseCategory != null">
+            and enterprise_category = #{enterpriseCategory}
+        </if>
+        <if test="enterpriseType != null">
+            and enterprise_type = #{enterpriseType}
+        </if>
+        <if test="userId != null">
+            and user_id = #{userId}
+        </if>
+        <if test="uniformSocialCreditCode != null">
+            and uniform_social_credit_code = #{uniformSocialCreditCode}
+        </if>
+        <if test="registeredCapital != null">
+            and registered_capital = #{registeredCapital}
+        </if>
+        <if test="scoreDevStart != null">
+            and score_dev <![CDATA[ >= ]]> #{scoreDevStart, jdbcType=FLOAT}
+        </if>
+        <if test="scoreDevEnd != null">
+            and score_dev <![CDATA[ < ]]> #{scoreDevEnd, jdbcType=FLOAT}
+        </if>
+        <if test="approvalUserId != null">
+            and approval_user_id = #{approvalUserId}
+        </if>
+        <if test="approvalStatus != null">
+            and approval_status = #{approvalStatus}
+        </if>
+        <if test="approvalDate != null">
+            and approval_date = #{approvalDate}
+        </if>
+        <if test="dateOfEstablishment != null">
+            and date_of_establishment = #{dateOfEstablishment}
+        </if>
+        <if test="humanResourcesLicense != null">
+            and human_resources_license = #{humanResourcesLicense},
+        </if>
+        <if test="placeOfBusiness != null ">
+            and place_of_business = #{placeOfBusiness},
+        </if>
+        <if test="responsibleApprovalStatus != null">
+            and responsible_approval_status = #{responsibleApprovalStatus}
+        </if>
+        <if test="responsibleApprovalDate != null">
+            and responsible_approval_date = #{responsibleApprovalDate}
+        </if>
+        <if test="secretaryApprovalStatus != null">
+            and secretary_approval_status = #{secretaryApprovalStatus}
+        </if>
+        <if test="secretaryApprovalDate != null">
+            and secretary_approval_date = #{secretaryApprovalDate}
+        </if>
+        <if test='createdBy != null'>
+            and created_by = #{createdBy}
+        </if>
+        <if test="deleteFlag != null">
+            and delete_flag = #{deleteFlag}
+        </if>
+        <if test="registerDateFormatStr != null">
+            and DATE_FORMAT(register_date, ${registerDateFormatStr}) between #{registerStartDate} and #{registerEndDate}
+        </if>
+    </sql>
+    <!--查询单个-->
+    <select id="queryById" resultType="com.liuzemin.server.framework.model.model.Enterprise">
+        select *
+        from tpl_enterprise_t
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="findPageList" resultType="com.liuzemin.server.framework.model.model.Enterprise">
+        select
+        *
+        from tpl_enterprise_t
+        <where>
+            <include refid="page_condition"></include>
+        </where>
+        order by creation_date desc
+        limit #{page.startIndex}, #{page.pageSize}
+    </select>
+
+    <select id="findSecondaryDistributorPageList" resultType="com.liuzemin.server.framework.model.model.Enterprise">
+        select
+        *
+        from tpl_enterprise_t a left join tpl_user_t b on a.user_id = b.user_id
+        <where>
+            <if test="enterprise.name!=null and enterprise.name！=‘’">
+                and a.name like concat('%',#{enterprise.name},'%')
+            </if>
+            <if test="enterprise.ids != null">
+                and a.id in
+                <foreach collection="enterprise.ids" index="index" open="(" close=")" separator=",">
+                    #{enterprise.ids[${index}]}
+                </foreach>
+            </if>
+            <if test="enterprise.phone!=null and enterprise.phone！=‘’">
+                and b.phone =#{enterprise.phone}
+            </if>
+        </where>
+        order by creation_date desc
+        limit #{page.startIndex}, #{page.pageSize}
+    </select>
+    <select id="findPageListCount" resultType="long">
+        select
+        count(1)
+        from tpl_enterprise_t
+        <where>
+            <include refid="page_condition"></include>
+        </where>
+    </select>
+    <!--通过实体作为筛选条件查询-->
+    <select id="findList" resultType="com.liuzemin.server.framework.model.model.Enterprise">
+        select
+        *
+        from tpl_enterprise_t
+        <where>
+            <include refid="condition"></include>
+        </where>
+    </select>
+    <select id="isNameExists" resultType="java.lang.Integer">
+        select 1 from tpl_enterprise_t where name =#{name}
+        <if test="id != null">
+            and id !=#{id}
+        </if>
+        limit 1
+    </select>
+    <select id="isCreditCodeExists" resultType="java.lang.Integer">
+        select 1 from
+        tpl_enterprise_t
+        where
+        uniform_social_credit_code = #{uniformSocialCreditCode}
+        <if test="id != null">
+            and id !=#{id}
+        </if>
+        limit 1
+    </select>
+
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into tpl_enterprise_t(name, uniform_social_credit_code, registered_capital, business_license,
+                                     application_information, legal_person_name, legal_person_id_card_no,
+                                     front_of_corporate_id_card, back_of_corporate_id_card,
+                                     certificate_of_authorization, recommended_unit, enterprise_category,
+                                     enterprise_type, user_id, approval_status, approval_date,
+                                     responsible_approval_status, responsible_approval_date, secretary_approval_status,
+                                     secretary_approval_date, register_date, delete_flag, creation_date, created_by,
+                                     last_update_date, last_updated_by, approval_user_id, score_dev, province_code,
+                                     city_code, county_code, date_of_establishment, human_resources_license,
+                                     place_of_business)
+        values (#{name}, #{uniformSocialCreditCode}, #{registeredCapital}, #{businessLicense},
+                #{applicationInformation}, #{legalPersonName}, #{legalPersonIdCardNo}, #{frontOfCorporateIdCard},
+                #{backOfCorporateIdCard}, #{certificateOfAuthorization}, #{recommendedUnit}, #{enterpriseCategory},
+                #{enterpriseType}, #{userId}, #{approvalStatus}, #{approvalDate}, #{responsibleApprovalStatus},
+                #{responsibleApprovalDate}, #{secretaryApprovalStatus}, #{secretaryApprovalDate}, #{registerDate},
+                #{deleteFlag}, #{creationDate}, #{createdBy}, #{lastUpdateDate}, #{lastUpdatedBy}, #{approvalUserId},
+                #{scoreDev}, #{provinceCode}, #{cityCode}, #{countyCode}, #{dateOfEstablishment},
+                #{humanResourcesLicense}, #{placeOfBusiness})
+    </insert>
+    <!--新增所有列-->
+    <insert id="interCert" keyProperty="id" useGeneratedKeys="true">
+        insert into tpl_enterprise_t(name,
+                                     province_code, city_code, county_code, back_of_corporate_id_card, business_license,
+                                     certificate_of_authorization,
+                                     uniform_social_credit_code,
+                                     legal_person_name,
+                                     legal_person_id_card_no,
+                                     front_of_corporate_id_card,
+                                     enterprise_category,
+                                     enterprise_type,
+                                     user_id,
+                                     approval_status,
+                                     date_of_establishment,
+                                     human_resources_license,
+                                     place_of_business,
+                                     creation_date,
+                                     created_by,
+                                     last_update_date ,
+                                     last_updated_by)
+        values (#{name},
+                #{provinceCode}, #{cityCode}, #{countyCode}, #{backOfCorporateIdCard}, #{businessLicense},
+                #{certificateOfAuthorization},
+                #{uniformSocialCreditCode},
+                #{legalPersonName},
+                #{legalPersonIdCardNo},
+                #{frontOfCorporateIdCard},
+                #{enterpriseCategory},
+                #{enterpriseType},
+                #{userId},
+                #{approvalStatus},
+                #{dateOfEstablishment},
+                #{humanResourcesLicense},
+                #{placeOfBusiness},
+                #{creationDate},
+                #{createdBy},
+                #{lastUpdateDate},
+                #{lastUpdatedBy})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update tpl_enterprise_t
+        <set>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="businessLicense != null and businessLicense != ''">
+                business_license = #{businessLicense},
+            </if>
+            <if test="applicationInformation != null and applicationInformation != ''">
+                application_information = #{applicationInformation},
+            </if>
+            <if test="legalPersonName != null and legalPersonName != ''">
+                legal_person_name = #{legalPersonName},
+            </if>
+            <if test="legalPersonIdCardNo != null and legalPersonIdCardNo != ''">
+                legal_person_id_card_no = #{legalPersonIdCardNo},
+            </if>
+            <if test="frontOfCorporateIdCard != null">
+                front_of_corporate_id_card = #{frontOfCorporateIdCard},
+            </if>
+            <if test="backOfCorporateIdCard != null">
+                back_of_corporate_id_card = #{backOfCorporateIdCard},
+            </if>
+            <if test="certificateOfAuthorization != null">
+                certificate_of_authorization = #{certificateOfAuthorization},
+            </if>
+            <if test="recommendedUnit != null">
+                recommended_unit = #{recommendedUnit},
+            </if>
+            <if test="provinceCode != null and provinceCode != ''">
+                province_code = #{provinceCode},
+            </if>
+            <if test="cityCode != null and cityCode != ''">
+                city_code = #{cityCode},
+            </if>
+            <if test="countyCode != null and countyCode != ''">
+                county_code = #{countyCode},
+            </if>
+            <if test="dateOfEstablishment != null">
+                date_of_establishment = #{dateOfEstablishment},
+            </if>
+            <if test="humanResourcesLicense != null">
+                human_resources_license = #{humanResourcesLicense},
+            </if>
+            <if test="placeOfBusiness != null ">
+                place_of_business = #{placeOfBusiness},
+            </if>
+            <if test="enterpriseCategory != null">
+                enterprise_category = #{enterpriseCategory},
+            </if>
+            <if test="enterpriseType != null">
+                enterprise_type = #{enterpriseType},
+            </if>
+            <if test="scoreDev != null">
+                score_dev = #{scoreDev},
+            </if>
+            <if test="userId != null">
+                user_id = #{userId},
+            </if>
+            <if test="uniformSocialCreditCode != null">
+                uniform_social_credit_code = #{uniformSocialCreditCode},
+            </if>
+            <if test="registeredCapital != null">
+                registered_capital = #{registeredCapital},
+            </if>
+            <if test="approvalStatus != null">
+                approval_status = #{approvalStatus},
+            </if>
+            <if test="approvalUserId != null">
+                approval_user_id = #{approvalUserId},
+            </if>
+            <if test="approvalDate != null">
+                approval_date = #{approvalDate},
+            </if>
+            <if test="responsibleApprovalStatus != null">
+                responsible_approval_status = #{responsibleApprovalStatus},
+            </if>
+            <if test="responsibleApprovalDate != null">
+                responsible_approval_date = #{responsibleApprovalDate},
+            </if>
+            <if test="registerDate != null">
+                register_date = #{registerDate},
+            </if>
+            <if test="secretaryApprovalStatus != null">
+                secretary_approval_status = #{secretaryApprovalStatus},
+            </if>
+            <if test="secretaryApprovalDate != null">
+                secretary_approval_date = #{secretaryApprovalDate},
+            </if>
+            <if test="approvalUserId != null">
+                approval_user_id = #{approvalUserId},
+            </if>
+            <if test="deleteFlag != null">
+                delete_flag = #{deleteFlag},
+            </if>
+            <if test="lastUpdateDate != null">
+                last_update_date = #{lastUpdateDate},
+            </if>
+            <if test="lastUpdatedBy != null">
+                last_updated_by = #{lastUpdatedBy},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete
+        from tpl_enterprise_t
+        where id = #{id}
+    </delete>
+
+    <select id="findDraftList" resultType="com.liuzemin.server.framework.model.model.Enterprise">
+        select name, business_license, application_information, legal_person_name,
+        legal_person_id_card_no, front_of_corporate_id_card, back_of_corporate_id_card,
+        certificate_of_authorization,
+        recommended_unit, enterprise_category, enterprise_type, user_id, approval_status,
+        approval_date, responsible_approval_status, responsible_approval_date,
+        uniform_social_credit_code, registered_capital, secretary_approval_status,
+        secretary_approval_date
+        from tpl_enterprise_draft_t
+        <where>
+            <include refid="condition"></include>
+        </where>
+    </select>
+    <select id="findregisterDateList" resultType="com.liuzemin.server.framework.model.model.Enterprise">
+        select
+        *
+        from tpl_enterprise_t
+        <where>
+            responsible_approval_status=1
+        </where>
+    </select>
+
+    <select id="findEnterprise" resultType="com.liuzemin.server.framework.model.model.Enterprise">
+        select
+        *
+        from tpl_enterprise_t
+        <where>
+            <include refid="condition"></include>
+        </where>
+    </select>
+
+    <delete id="deleteDraft">
+        delete
+        from tpl_enterprise_draft_t
+        where id = #{id}
+    </delete>
+    <delete id="deleteDraftByCreatedBy">
+        delete
+        from tpl_enterprise_draft_t
+        where created_by = #{createdBy}
+    </delete>
+    <insert id="insertDraft">
+        insert into tpl_enterprise_draft_t(name, business_license, application_information, legal_person_name,
+                                           legal_person_id_card_no, front_of_corporate_id_card,
+                                           back_of_corporate_id_card,
+                                           certificate_of_authorization,
+                                           recommended_unit, enterprise_category, enterprise_type, user_id,
+                                           approval_status,
+                                           approval_date, responsible_approval_status, responsible_approval_date,
+                                           uniform_social_credit_code, registered_capital, secretary_approval_status,
+                                           secretary_approval_date,
+                                           creation_date, created_by, last_update_date, last_updated_by)
+        values (#{name}, #{businessLicense}, #{applicationInformation}, #{legalPersonName}, #{legalPersonIdCardNo},
+                #{frontOfCorporateIdCard}, #{backOfCorporateIdCard}, #{certificateOfAuthorization}, #{recommendedUnit},
+                #{enterpriseCategory}, #{enterpriseType}, #{userId}, #{approvalStatus}, #{approvalDate},
+                #{responsibleApprovalStatus}, #{responsibleApprovalDate},
+                #{uniformSocialCreditCode}, #{registeredCapital}, #{secretaryApprovalStatus}, #{secretaryApprovalDate},
+                #{creationDate}, #{createdBy}, #{lastUpdateDate}, #{lastUpdatedBy})
+    </insert>
+
+
+    <select id="findEnterpriseSide" resultType="com.liuzemin.server.framework.model.model.Enterprise">
+        select
+        id,name,register_date,user_id
+        from tpl_enterprise_t
+        <where>
+            <include refid="condition"></include>
+        </where>
+    </select>
+    <select id="findDemandSideExportList" resultType="com.liuzemin.server.framework.model.model.EnterpriseExportExcleVO">
+        select
+        id,name,register_date,user_id
+        from tpl_enterprise_t
+        <where>
+            <include refid="condition"></include>
+        </where>
+    </select>
+    <select id="findProgramList" resultType="com.liuzemin.server.framework.model.model.Program">
+        select * from tpl_program_t
+        <where>
+            <if test="programName != null and programName != ''">
+                and program_name = #{programName}
+            </if>
+        </where>
+    </select>
+</mapper>

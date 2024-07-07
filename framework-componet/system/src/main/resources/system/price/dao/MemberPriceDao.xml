@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liuzemin.server.framework.system.price.dao.IMemberPriceDao">
+
+    <resultMap type="com.liuzemin.server.framework.model.model.MemberPrice" id="TplMemberPriceTMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="code" column="code" jdbcType="VARCHAR"/>
+        <result property="oneYearPrice" column="one_year_price" jdbcType="VARCHAR"/>
+        <result property="twoYearPrice" column="two_year_price" jdbcType="VARCHAR"/>
+        <result property="type" column="type" jdbcType="INTEGER"/>
+        <result property="creationDate" column="creation_date" jdbcType="TIMESTAMP"/>
+        <result property="createdBy" column="created_by" jdbcType="INTEGER"/>
+        <result property="lastUpdateDate" column="last_update_date" jdbcType="TIMESTAMP"/>
+        <result property="lastUpdatedBy" column="last_updated_by" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="TplMemberPriceTMap">
+        select id,
+               code,
+               one_year_price,
+               two_year_price,
+               type,
+               creation_date,
+               created_by,
+               last_update_date,
+               last_updated_by
+        from crec_dmp_db.tpl_member_price_t
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="findPageList" resultMap="TplMemberPriceTMap">
+        select id,
+               code,
+               one_year_price,
+               two_year_price,
+               type,
+               creation_date,
+               created_by,
+               last_update_date,
+               last_updated_by
+        from crec_dmp_db.tpl_member_price_t
+        limit #{page.startIndex}, #{page.pageSize}
+    </select>
+
+
+    <!--查询行-->
+    <select id="findPageListCount" resultType="long">
+        select count(*)
+        from crec_dmp_db.tpl_member_price_t
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="TplMemberPriceTMap">
+        select
+        id,code,one_year_price,two_year_price,type,creation_date,created_by,last_update_date,last_updated_by
+        from crec_dmp_db.tpl_member_price_t
+        <where>
+            <if test="id != null">
+                and id= #{id}
+            </if>
+            <if test="code != null and code != ''">
+                and code= #{code}
+            </if>
+            <if test="codes != null and codes.size>0">
+                and code in
+                <foreach collection="codes" index="index" open="(" close=")" separator=",">
+                    #{codes[${index}]}
+                </foreach>
+            </if>
+            <if test="oneYearPrice != null">
+                and one_year_price= #{oneYearPrice}
+            </if>
+            <if test="twoYearPrice != null">
+                and two_year_price= #{twoYearPrice}
+            </if>
+            <if test="type != null">
+                and type= #{type}
+            </if>
+            <if test="creationDate != null">
+                and creation_date= #{creationDate}
+            </if>
+            <if test="createdBy != null">
+                and created_by= #{createdBy}
+            </if>
+            <if test="lastUpdateDate != null">
+                and last_update_date= #{lastUpdateDate}
+            </if>
+            <if test="lastUpdatedBy != null">
+                and last_updated_by= #{lastUpdatedBy}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="batchInsert" keyProperty="id" useGeneratedKeys="true">
+        insert into crec_dmp_db.tpl_member_price_t(code, one_year_price, two_year_price, type, creation_date,
+        created_by, last_update_date, last_updated_by)
+        values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.code}, #{item.oneYearPrice}, #{item.twoYearPrice}, #{item.type}, #{item.creationDate},
+            #{item.createdBy}, #{item.lastUpdateDate},
+            #{item.lastUpdatedBy})
+        </foreach>
+
+    </insert>
+
+    <insert id="insertList" keyProperty="id" useGeneratedKeys="true" parameterType="java.util.List">
+        INSERT into crec_dmp_db.tpl_member_price_t(code, one_year_price, two_year_price, type, creation_date,
+        created_by, last_update_date, last_updated_by)
+        values
+        <foreach collection="list" item="item" separator="," index="index">
+            (#{item.code}, #{item.oneYearPrice}, #{item.twoYearPrice}, #{item.type}, #{item.creationDate},
+            #{item.createdBy}, #{item.lastUpdateDate},
+            #{item.lastUpdatedBy})
+        </foreach>
+    </insert>
+
+    <update id="updateList" parameterType="java.util.List">
+        update crec_dmp_db.tpl_member_price_t
+        <trim prefix="set" suffixOverrides=",">
+            <trim prefix="code =case" suffix="end,">
+                <foreach collection="list" item="item">
+                    <if test="item.code!=null">
+                        when id=#{item.id} then #{item.code}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="one_year_price =case" suffix="end,">
+                <foreach collection="list" item="item">
+                    <if test="item.oneYearPrice!=null">
+                        when id=#{item.id} then #{item.oneYearPrice}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="two_year_price =case" suffix="end,">
+                <foreach collection="list" item="item">
+                    <if test="item.twoYearPrice!=null">
+                        when id=#{item.id} then #{item.twoYearPrice}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="type =case" suffix="end,">
+                <foreach collection="list" item="item">
+                    <if test="item.type!=null">
+                        when id=#{item.id} then #{item.type}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="last_update_date =case" suffix="end,">
+                <foreach collection="list" item="item">
+                    <if test="item.lastUpdateDate!=null">
+                        when id=#{item.id} then #{item.lastUpdateDate}
+                    </if>
+                </foreach>
+            </trim>
+            <trim prefix="last_updated_by =case" suffix="end,">
+                <foreach collection="list" item="item">
+                    <if test="item.lastUpdatedBy!=null">
+                        when id=#{item.id} then #{item.lastUpdatedBy}
+                    </if>
+                </foreach>
+            </trim>
+        </trim>
+        where id in
+        <foreach collection="list" separator="," item="item" open="(" close=")">
+            #{item.id}
+        </foreach>
+    </update>
+
+
+    <update id="batchUpdate" parameterType="list">
+        <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            update crec_dmp_db.tpl_member_price_t
+            <set>
+                <!--                <if test="code != null and code != ''">-->
+                <!--                    code= #{code},-->
+                <!--                </if>-->
+                <if test="oneYearPrice != null">
+                    one_year_price= #{oneYearPrice},
+                </if>
+                <if test="twoYearPrice != null">
+                    two_year_price= #{twoYearPrice},
+                </if>
+                <if test="type != null">
+                    type= #{type},
+                </if>
+                <if test="creationDate != null">
+                    creation_date= #{creationDate},
+                </if>
+                <if test="createdBy != null">
+                    created_by= #{createdBy},
+                </if>
+                <if test="lastUpdateDate != null">
+                    last_update_date= #{lastUpdateDate},
+                </if>
+                <if test="lastUpdatedBy != null">
+                    last_updated_by= #{lastUpdatedBy},
+                </if>
+            </set>
+            <where>
+                code = #{item.code,jdbcType=VARCHAR}
+            </where>
+        </foreach>
+    </update>
+
+
+    <!--批量新增-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into crec_dmp_db.tpl_member_price_t(code, one_year_price, two_year_price, type, creation_date,
+                                                   created_by, last_update_date, last_updated_by)
+        values (#{code}, #{oneYearPrice}, #{twoYearPrice}, #{type}, #{creationDate}, #{createdBy}, #{lastUpdateDate},
+                #{lastUpdatedBy})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update crec_dmp_db.tpl_member_price_t
+        <set>
+            <if test="code != null and code != ''">
+                code= #{code},
+            </if>
+            <if test="oneYearPrice != null">
+                one_year_price= #{oneYearPrice},
+            </if>
+            <if test="twoYearPrice != null">
+                two_year_price= #{twoYearPrice},
+            </if>
+            <if test="type != null">
+                type= #{type},
+            </if>
+            <if test="creationDate != null">
+                creation_date= #{creationDate},
+            </if>
+            <if test="createdBy != null">
+                created_by= #{createdBy},
+            </if>
+            <if test="lastUpdateDate != null">
+                last_update_date= #{lastUpdateDate},
+            </if>
+            <if test="lastUpdatedBy != null">
+                last_updated_by= #{lastUpdatedBy},
+            </if>
+        </set>
+        where id= #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete
+        from crec_dmp_db.tpl_member_price_t
+        where id = #{id}
+    </delete>
+
+    <!--删除所有-->
+    <delete id="deleteAll">
+        delete
+        from crec_dmp_db.tpl_member_price_t
+    </delete>
+
+</mapper>

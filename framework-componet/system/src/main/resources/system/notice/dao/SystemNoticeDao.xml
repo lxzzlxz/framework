@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.liuzemin.server.framework.system.notice.dao.SystemNoticeDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+	<resultMap type="com.liuzemin.server.framework.system.notice.model.SystemNotice" id="systemNoticeMap">
+		<result property="id" column="id"/>
+		<result property="subject" column="subject"/>
+		<result property="content" column="content"/>
+		<result property="status" column="status"/>
+		<result property="creationDate" column="creation_date"/>
+		<result property="createdBy" column="created_by"/>
+		<result property="lastUpdateDate" column="last_update_date"/>
+		<result property="lastUpdatedBy" column="last_updated_by"/>
+	</resultMap>
+
+	<sql id="page_condition">
+
+
+	</sql>
+
+	<select id="get" resultType="com.liuzemin.server.framework.system.notice.model.SystemNotice">
+		select * from tpl_system_notice_t where id = #{value}
+	</select>
+
+	<select id="findPageList" resultType="com.liuzemin.server.framework.system.notice.model.SystemNotice">
+		select * from tpl_system_notice_t
+		<where>
+			<include refid="page_condition"></include>
+		</where>
+		order by creation_date DESC
+		limit #{page.startIndex}, #{page.pageSize}
+	</select>
+	<select id="findPageListCount" resultType="long">
+		select count(*) from tpl_system_notice_t
+		<where>
+			<include refid="page_condition"></include>
+		</where>
+	</select>
+	<select id="findList" resultType="com.liuzemin.server.framework.system.notice.model.SystemNotice">
+		select * from tpl_system_notice_t
+		where status=#{status}
+	</select>
+	<insert id="save" parameterType="com.liuzemin.server.framework.system.notice.model.SystemNotice">
+		insert into tpl_system_notice_t
+		(
+			`subject`,
+			`content`,
+			`status`,
+			`creation_date`,
+			`created_by`,
+			`last_update_date`,
+			`last_updated_by`
+		)
+		values
+		(
+			#{subject},
+			#{content},
+			#{status},
+			#{creationDate},
+			#{createdBy},
+			#{lastUpdateDate},
+			#{lastUpdatedBy}
+		)
+	</insert>
+
+	<update id="update" parameterType="com.liuzemin.server.framework.system.notice.model.SystemNotice">
+		update tpl_system_notice_t
+		<set>
+			<if test="subject != null">`subject` = #{subject},</if>
+			<if test="content != null">`content` = #{content},</if>
+			<if test="status != null">`status` = #{status},</if>
+			<if test="creationDate != null">`creation_date` = #{creationDate},</if>
+			<if test="createdBy != null">`created_by` = #{createdBy},</if>
+			<if test="lastUpdateDate != null">`last_update_date` = #{lastUpdateDate},</if>
+			<if test="lastUpdatedBy != null">`last_updated_by` = #{lastUpdatedBy}</if>
+		</set>
+		where id = #{id}
+	</update>
+
+	<delete id="delete">
+		delete from tpl_system_notice_t where id = #{value}
+	</delete>
+
+
+</mapper>

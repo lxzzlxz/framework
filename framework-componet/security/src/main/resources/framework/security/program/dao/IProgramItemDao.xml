@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liuzemin.server.framework.security.program.dao.IProgramItemDao">
+
+    <sql id="find_columns">
+        id as id, program_id as programId, dimension_code as dimensionCode, dimension_value as dimensionValue, creation_date as creationDate,
+		created_by as createdBy, last_update_date as lastUpdateDate, last_updated_by as lastUpdatedBy
+    </sql>
+
+    <sql id="condition">
+        <if test='id != null'>
+            and id = #{id, jdbcType=BIGINT}
+        </if>
+        <if test='programId != null'>
+            and program_id = #{programId, jdbcType=VARCHAR}
+        </if>
+        <if test='dimensionCode != null and dimensionCode != ""'>
+            and dimension_code = #{dimensionCode, jdbcType=VARCHAR}
+        </if>
+        <if test='dimensionValue != null and dimensionValue != ""'>
+            and dimension_value = #{dimensionValue, jdbcType=VARCHAR}
+        </if>
+        <if test="programIds != null and programIds.size > 0">
+            and program_id in
+            <foreach collection="programIds" item="item" index="index" separator="," open="(" close=")">
+                #{programIds[${index}], jdbcType=BIGINT}
+            </foreach>
+        </if>
+        <if test="dimensionValueList != null and dimensionValueList.size > 0">
+            and dimension_value in
+            <foreach collection="dimensionValueList" item="item" index="index" separator="," open="(" close=")">
+                #{dimensionValueList[${index}], jdbcType=BIGINT}
+            </foreach>
+        </if>
+    </sql>
+
+    <sql id="page_condition">
+        <if test='arg0.id != null'>
+            and id = #{arg0.id, jdbcType=BIGINT}
+        </if>
+        <if test='arg0.programId != null'>
+            and program_id = #{arg0.programId, jdbcType=VARCHAR}
+        </if>
+        <if test='arg0.dimensionCode != null and arg0.dimensionCode != ""'>
+            and dimension_code = #{arg0.dimensionCode, jdbcType=VARCHAR}
+        </if>
+        <if test="arg0.programIds != null and arg0.programIds.size > 0">
+            and program_id in
+            <foreach collection="arg0.programIds" index="index" item="item" separator="," open="(" close=")">
+                #{arg0.programIds[${index}], jdbcType=BIGINT}
+            </foreach>
+        </if>
+    </sql>
+
+    <select id="findPagedList" resultType="com.liuzemin.server.framework.model.model.ProgramItem">
+        select <include refid="find_columns"></include>
+        from tpl_program_item_t
+        <where>
+            <include refid="page_condition"></include>
+        </where>
+        limit #{arg1.startIndex, jdbcType=INTEGER}, #{arg1.pageSize, jdbcType=INTEGER}
+    </select>
+
+    <select id="findPagedListCount" resultType="java.lang.Long">
+        select count(1)
+        from tpl_program_item_t
+        <where>
+            <include refid="page_condition"></include>
+        </where>
+    </select>
+
+    <select id="findList" parameterType="com.liuzemin.server.framework.model.model.ProgramItem" resultType="com.liuzemin.server.framework.model.model.ProgramItem">
+        select <include refid="find_columns"></include>
+        from tpl_program_item_t
+        <where>
+            <include refid="condition"></include>
+        </where>
+    </select>
+
+    <insert id="insertList">
+        insert into tpl_program_item_t
+        (program_id, dimension_code, dimension_value, creation_date, created_by, last_update_date, last_updated_by)
+        values
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.programId, jdbcType=VARCHAR},
+            #{item.dimensionCode, jdbcType=VARCHAR},
+            #{item.dimensionValue, jdbcType=VARCHAR},
+            #{item.creationDate, jdbcType=TIMESTAMP},
+            #{item.createdBy, jdbcType=BIGINT},
+            #{item.lastUpdateDate, jdbcType=TIMESTAMP},
+            #{item.lastUpdatedBy, jdbcType=BIGINT}
+            )
+        </foreach>
+    </insert>
+
+    <update id="deleteList">
+        delete from tpl_program_item_t
+        where id in
+        <foreach collection="list" item="item" separator="," open="(" close=")" index="index">
+            #{list[${index}], jdbcType=BIGINT}
+        </foreach>
+    </update>
+
+    <select id="findProgramItemsList" parameterType="java.util.Map" resultType="java.lang.String">
+        SELECT
+            tt.dimension_value
+        FROM
+            tpl_program_item_t tt
+                INNER JOIN
+            (SELECT
+                 t1.program_id
+             FROM
+                 tpl_user_role_program_t t1
+                     INNER JOIN tpl_role_permission_t t2
+                                ON t1.role_id = t2.role_id
+                     INNER JOIN tpl_permission_t t3
+                                ON t3.`id` = t2.permission_id
+             WHERE t3.`pr_id` = #{prId, jdbcType=VARCHAR}
+               AND t3.`r_id` = #{rId, jdbcType=VARCHAR}
+               AND user_id = #{userId, jdbcType=BIGINT}
+             UNION
+             SELECT
+                 t1.`program_id`
+             FROM
+                 tpl_group_role_program_t t1
+                     INNER JOIN tpl_role_permission_t t2
+                                ON t1.`role_id` = t2.`role_id`
+                     INNER JOIN tpl_permission_t t3
+                                ON t2.permission_id = t3.`id`
+                     INNER JOIN tpl_group_user_t t4
+                                ON t1.group_id = t4.group_id
+             WHERE t4.user_id = #{userId, jdbcType=BIGINT}
+               AND t3.pr_id = #{prId, jdbcType=VARCHAR}
+               AND t3.r_id = #{rId, jdbcType=VARCHAR}
+             UNION
+             SELECT
+                 t1.`program_id`
+             FROM
+                 tpl_department_role_program_t t1
+                     INNER JOIN tpl_role_permission_t t2
+                                ON t1.`role_id` = t2.`role_id`
+                     INNER JOIN tpl_permission_t t3
+                                ON t2.`permission_id` = t3.`id`
+                     INNER JOIN tpl_department_user_t t4
+                                ON t1.department_id = t4.department_id
+             WHERE t4.user_id = #{userId, jdbcType=BIGINT}
+               AND t3.pr_id = #{prId, jdbcType=VARCHAR}
+               AND t3.r_id = #{rId, jdbcType=VARCHAR} ) aa
+            ON tt.`program_id` = aa.program_id
+        WHERE tt.`dimension_code` = #{dimensionCode, jdbcType=VARCHAR}
+    </select>
+
+    <select id="findProjectUnitProgramList" resultType="java.lang.Long">
+        select distinct program_id
+        from tpl_program_item_t
+
+    </select>
+</mapper>

@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liuzemin.server.framework.system.cancellation.dao.ICancellationDao">
+    <resultMap id="BaseResultMap" type="com.liuzemin.server.framework.system.cancellation.model.Cancellation">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="user_id" jdbcType="BIGINT" property="userId"/>
+        <result column="user_type" jdbcType="VARCHAR" property="userType"/>
+        <result column="commit_time" jdbcType="TIMESTAMP" property="commitTime"/>
+        <result column="status" jdbcType="CHAR" property="status"/>
+        <result column="created_by" jdbcType="VARCHAR" property="createdBy"/>
+        <result column="creation_date" jdbcType="TIMESTAMP" property="creationDate"/>
+        <result column="last_updated_by" jdbcType="BIGINT" property="lastUpdatedBy"/>
+        <result column="last_update_date" jdbcType="TIMESTAMP" property="lastUpdateDate"/>
+    </resultMap>
+
+    <sql id="page_condition">
+        <if test="cancellation.userId != null">
+            and user_id = #{cancellation.userId,jdbcType=BIGINT}
+        </if>
+        <if test="cancellation.userType != null">
+            and user_type = #{cancellation.userType,jdbcType=VARCHAR}
+        </if>
+        <if test="cancellation.commitTime != null">
+            and commit_time = #{cancellation.commitTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="cancellation.status != null">
+            and `status` = #{cancellation.status,jdbcType=CHAR}
+        </if>
+        <if test="cancellation.createdBy != null">
+            and created_by = #{cancellation.createdBy,jdbcType=VARCHAR}
+        </if>
+        <if test="cancellation.creationDate != null">
+            and creation_date = #{cancellation.creationDate,jdbcType=TIMESTAMP}
+        </if>
+        <if test="cancellation.lastUpdatedBy != null">
+            and last_updated_by = #{cancellation.lastUpdatedBy,jdbcType=BIGINT}
+        </if>
+        <if test="cancellation.lastUpdateDate != null">
+            and last_update_date = #{cancellation.lastUpdateDate,jdbcType=TIMESTAMP}
+        </if>
+
+    </sql>
+    <sql id="Base_Column_List">
+    id, user_id, user_type, commit_time, `status`, created_by, creation_date, last_updated_by, 
+    last_update_date
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from tpl_cancellation_t
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from tpl_cancellation_t
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+
+    <delete id="deleteByPrimaryKeys" parameterType="java.lang.Long">
+        delete from tpl_cancellation_t
+        where id in
+        <foreach collection="ids" index="index" separator="," item="item" open="(" close=")" >
+            #{ids[${index}], jdbcType=BIGINT}
+        </foreach>
+    </delete>
+
+
+
+    <insert id="insert" keyColumn="id" keyProperty="id"
+            parameterType="com.liuzemin.server.framework.system.cancellation.model.Cancellation" useGeneratedKeys="true">
+    insert into tpl_cancellation_t (user_id, user_type, commit_time, 
+      `status`, created_by, creation_date, 
+      last_updated_by, last_update_date)
+    values (#{userId,jdbcType=BIGINT}, #{userType,jdbcType=VARCHAR}, #{commitTime,jdbcType=TIMESTAMP}, 
+      #{status,jdbcType=CHAR}, #{createdBy,jdbcType=VARCHAR}, #{creationDate,jdbcType=TIMESTAMP}, 
+      #{lastUpdatedBy,jdbcType=BIGINT}, #{lastUpdateDate,jdbcType=TIMESTAMP})
+  </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id"
+            parameterType="com.liuzemin.server.framework.system.cancellation.model.Cancellation" useGeneratedKeys="true">
+        insert into tpl_cancellation_t
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="userType != null">
+                user_type,
+            </if>
+            <if test="commitTime != null">
+                commit_time,
+            </if>
+            <if test="status != null">
+                `status`,
+            </if>
+            <if test="createdBy != null">
+                created_by,
+            </if>
+            <if test="creationDate != null">
+                creation_date,
+            </if>
+            <if test="lastUpdatedBy != null">
+                last_updated_by,
+            </if>
+            <if test="lastUpdateDate != null">
+                last_update_date,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">
+                #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="userType != null">
+                #{userType,jdbcType=VARCHAR},
+            </if>
+            <if test="commitTime != null">
+                #{commitTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=CHAR},
+            </if>
+            <if test="createdBy != null">
+                #{createdBy,jdbcType=VARCHAR},
+            </if>
+            <if test="creationDate != null">
+                #{creationDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastUpdatedBy != null">
+                #{lastUpdatedBy,jdbcType=BIGINT},
+            </if>
+            <if test="lastUpdateDate != null">
+                #{lastUpdateDate,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+
+
+    <!--查询指定行数据-->
+    <select id="findPageList" resultType="com.liuzemin.server.framework.system.cancellation.model.Cancellation">
+        select
+        *
+        from tpl_cancellation_t
+        <where>
+            <include refid="page_condition"></include>
+        </where>
+        order by creation_date desc
+        limit #{page.startIndex}, #{page.pageSize}
+    </select>
+
+
+    <!--查询指定行数据-->
+    <select id="findList" resultType="com.liuzemin.server.framework.system.cancellation.model.Cancellation">
+        select
+        *
+        from tpl_cancellation_t
+        <where>
+            <include refid="page_condition"></include>
+        </where>
+        order by creation_date desc
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="findPageListCount" resultType="long">
+        select
+        count(*)
+        from tpl_cancellation_t
+        <where>
+            <include refid="page_condition"></include>
+        </where>
+
+    </select>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="com.liuzemin.server.framework.system.cancellation.model.Cancellation">
+        update tpl_cancellation_t
+        <set>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=BIGINT},
+            </if>
+            <if test="userType != null">
+                user_type = #{userType,jdbcType=VARCHAR},
+            </if>
+            <if test="commitTime != null">
+                commit_time = #{commitTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="status != null">
+                `status` = #{status,jdbcType=CHAR},
+            </if>
+            <if test="createdBy != null">
+                created_by = #{createdBy,jdbcType=VARCHAR},
+            </if>
+            <if test="creationDate != null">
+                creation_date = #{creationDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastUpdatedBy != null">
+                last_updated_by = #{lastUpdatedBy,jdbcType=BIGINT},
+            </if>
+            <if test="lastUpdateDate != null">
+                last_update_date = #{lastUpdateDate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.liuzemin.server.framework.system.cancellation.model.Cancellation">
+    update tpl_cancellation_t
+    set user_id = #{userId,jdbcType=BIGINT},
+      user_type = #{userType,jdbcType=VARCHAR},
+      commit_time = #{commitTime,jdbcType=TIMESTAMP},
+      `status` = #{status,jdbcType=CHAR},
+      created_by = #{createdBy,jdbcType=VARCHAR},
+      creation_date = #{creationDate,jdbcType=TIMESTAMP},
+      last_updated_by = #{lastUpdatedBy,jdbcType=BIGINT},
+      last_update_date = #{lastUpdateDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
