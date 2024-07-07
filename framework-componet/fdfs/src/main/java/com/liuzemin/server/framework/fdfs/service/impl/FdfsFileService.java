@@ -112,7 +112,7 @@ public class FdfsFileService implements IFdfsFileService {
             lm.setType(2);
             lm.setFilePath(parentPath + "/" + f.getName());
             lm.setSize(f.length()/1024);
-           // lm.setUrl("/system/log/v1/download?fileName=" + lm.getFileName() + "&filePath=" + lm.getFilePath());
+            // lm.setUrl("/system/log/v1/download?fileName=" + lm.getFileName() + "&filePath=" + lm.getFilePath());
             lm.setUrl(fileServiceUrl + "group1" + "/" + lm.getFilePath() + "?fileName=" + lm.getFileName());
             list.add(lm);
         } else {
