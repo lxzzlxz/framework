@@ -1,4 +1,4 @@
-package com;
+package com.liuzemin.server.framework.jump;
 
 import java.io.IOException;
 

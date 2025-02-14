@@ -20,6 +20,7 @@
         <module>zuul</module>
         <module>fdfs</module>
         <module>system</module>
+        <module>workflow</module>
     </modules>
 
 </project>
