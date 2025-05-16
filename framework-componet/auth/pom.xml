@@ -71,6 +71,11 @@
             <artifactId>spring-core</artifactId>
             <version>5.0.5.RELEASE</version>
         </dependency>
+        <dependency>
+            <groupId>net.sourceforge.tess4j</groupId>
+            <artifactId>tess4j</artifactId>
+            <version>5.4.0</version> <!-- 使用最新版本 -->
+        </dependency>
     </dependencies>
     <build>
         <plugins>

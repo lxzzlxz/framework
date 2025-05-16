@@ -201,17 +201,39 @@
             <artifactId>kaptcha</artifactId>
             <version>2.3.2</version>
         </dependency>
+        <dependency>
+            <groupId>net.sourceforge.tess4j</groupId>
+            <artifactId>tess4j</artifactId>
+            <version>5.4.0</version> <!-- 使用最新版本 -->
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.opencv/opencv -->
+        <dependency>
+            <groupId>org.bytedeco</groupId>
+            <artifactId>opencv</artifactId>
+            <version>4.10.0-1.5.11</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openpnp</groupId>
+            <artifactId>opencv</artifactId>
+            <version>4.5.5-1</version>
+        </dependency>
     </dependencies>
+<!--    <repositories>
+        <repository>
+            <id>opencv-repo</id>
+            <url>https://mvnrepository.com/artifact/org.opencv/opencv</url> &lt;!&ndash; 或其他专用仓库地址 &ndash;&gt;
+        </repository>
+    </repositories>-->
 
     <build>
         <pluginManagement><!-- lock down plugins versions to avoid using Maven
 				defaults (may be moved to parent pom) -->
-            <plugins>
+            <!--<plugins>
                 <plugin>
                     <artifactId>maven-clean-plugin</artifactId>
                     <version>3.0.0</version>
                 </plugin>
-                <!-- see http://maven.apache.org/ref/current/maven-core/default-bindings.html#Plugin_bindings_for_jar_packaging -->
+                &lt;!&ndash; see http://maven.apache.org/ref/current/maven-core/default-bindings.html#Plugin_bindings_for_jar_packaging &ndash;&gt;
                 <plugin>
                     <artifactId>maven-resources-plugin</artifactId>
                     <version>3.0.2</version>
@@ -237,7 +259,7 @@
                     <version>2.8.2</version>
                 </plugin>
 
-            </plugins>
+            </plugins>-->
         </pluginManagement>
         <plugins>
             <plugin>
